@@ -1,0 +1,30 @@
+body, html {
+  background: #fff;
+  color: #666;
+  font: 13px/165% Courier, "Lucida Console", monospace;
+  margin: 0 auto;
+}
+
+a, a:link {
+  background: #fff;
+  color: #e42900;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #e42900;
+}
+
+a:hover, a:active {
+  color: #f06528;
+}
+
+#main {
+  margin: 75px 0 0 175px;
+  padding: 1em;
+  width: 500px;
+}
+
+#main h1 {
+  font-weight: normal;
+}
