@@ -1,7 +1,7 @@
 body, html {
   background: #fff;
   color: #666;
-  font: 13px/165% Courier, "Lucida Console", monospace;
+  font: 16px/200% Courier, "Lucida Console", monospace;
   margin: 0 auto;
 }
 
@@ -26,5 +26,5 @@ a:hover, a:active {
 }
 
 #main h1 {
-  font-weight: normal;
+  font-weight: bolder;
 }
