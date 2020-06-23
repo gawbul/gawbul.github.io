@@ -1,7 +1,8 @@
 body, html {
   background: #fff;
   color: #666;
-  font: 18px/200% Courier, "Lucida Console", monospace;
+  font: 18px/200%;
+  font-family: "Source Code Pro";
   margin: 0 auto;
 }
 
@@ -20,11 +21,21 @@ a:hover, a:active {
 }
 
 #main {
-  margin: 75px 0 0 75px;
-  padding: 1em;
   width: 800px;
+  height: 800px;
+  margin-left: -400px; /* Half of width */
+  margin-top: -400px; /* Half of height */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  text-align: center;
+  vertical-align: text-top;
 }
 
 #main h1 {
   font-weight: bolder;
+}
+
+img {
+  border-radius: 5%;
 }
