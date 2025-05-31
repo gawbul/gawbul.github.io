@@ -1,70 +1,427 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="The homepage of Stephen P. Moss, Ph.D. - Bioinformatics, Genomics and Molecular Evolution">
-    <meta name="keywords" content="bioinformatics,genomics,molecular evolution,evolution,computational science,science,medicine,research,computing,phd">
-    <meta name="author" content="Stephen Moss">
-    <title>Stephen P. Moss, Ph.D. - Computational Scientist</title>
-    <link rel="icon" href="favicon.png" type="image/png">
-    <link rel="stylesheet" href="normalize.min.css" type="text/css">
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro" type="text/css">
-    <link rel="canonical" href="https://www.gawbul.io/index.html">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-50119829-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-50119829-1');
-    </script>
-  </head>
-  <body>
-    <div id="main">
-      <img src="images/gawbul.png" alt="Steve Moss" width="600" height="450">
-      <h1>Dr Stephen P. Moss</h1>
-      <h2>Scientist | Technologist | Engineer</h2>
-      <p>
-        <a href="https://about.me/gawbul" target="_blank">
-          <img src="images/aboutme.png" alt="about.me" title="about.me" width="32" height="32">
-        </a>
-        &#183;
-        <a href="https://bsky.app/profile/gawbul.io" target="_blank">
-          <img src="images/bluesky.png" alt="Bluesky" title="Bluesky" width="32" height="32">
-        </a>
-        &#183;
-        <a href="https://github.com/gawbul" target="_blank">
-          <img src="images/github.png" alt="GitHub" title="GitHub" width="32" height="32">
-        </a>
-        &#183;
-        <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#103;&#097;&#119;&#098;&#117;&#108;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">
-          <img src="images/gmail.png" alt="Gmail" title="Gmail" width="32" height="32">
-        </a>
-        &#183;
-        <a href="https://scholar.google.co.uk/citations?hl=en&user=KD8T2ZwAAAAJ" target="_blank">
-          <img src="images/googlescholar.png" alt="Google Scholar" title="Google Scholar" width="32" height="32">
-        </a>
-        &#183;
-        <a href="https://keybase.io/gawbul" target="_blank">
-          <img src="images/keybase.png" alt="Keybase" title="Keybase" width="32" height="32">
-        </a>
-        &#183;
-        <a href="https://www.linkedin.com/in/stephenpmoss" target="_blank">
-          <img src="images/linkedin.png" alt="LinkedIn" title="LinkedIn" width="32" height="32">
-        </a>
-        &#183;
-        <a href="https://medium.com/@gawbul" target="_blank">
-          <img src="images/medium.png" alt="Medium" title="Medium" width="32" height="32">
-        </a>
-        &#183;
-        <a href="https://www.threads.net/@gawbul" target="_blank">
-          <img src="images/threads.png" alt="Threads" title="Threads" width="32" height="32">
-        </a>
-      </p>
-      <p style="font-size:75%;">
-        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
-      </p>
-    </div>
-  </body>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Dr Steve Moss</title>
+        <meta
+            name="description"
+            content="I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
+        />
+        <link rel="stylesheet" href="assets/main.css" />
+        <link rel="canonical" href="https://gawbul.io/" />
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="Steve Moss"
+            href="https://gawbul.medium.com/feed"
+        />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-50119829-1"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", "UA-50119829-1");
+        </script>
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i["GoogleAnalyticsObject"] = r;
+                (i[r] =
+                    i[r] ||
+                    function () {
+                        (i[r].q = i[r].q || []).push(arguments);
+                    }),
+                    (i[r].l = 1 * new Date());
+                (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m);
+            })(
+                window,
+                document,
+                "script",
+                "https://www.google-analytics.com/analytics.js",
+                "ga",
+            );
+            ga("create", "UA-50119829-1", "auto");
+            ga("send", "pageview");
+        </script>
+        <title>
+            Dr Steve Moss | I help companies deploy their code into production.
+            I write about distributed systems, tooling, and best practices.
+        </title>
+        <meta name="generator" content="Jekyll v3.10.0" />
+        <meta property="og:title" content="Steve Moss" />
+        <meta property="og:locale" content="en_US" />
+        <meta
+            name="description"
+            content="I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
+        />
+        <meta
+            property="og:description"
+            content="I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
+        />
+        <link rel="canonical" href="https://gawbul.io/" />
+        <meta property="og:url" content="https://gawbul.io/" />
+        <meta property="og:site_name" content="Steve Moss" />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "description": "I help companies deploy their code into production. I write about distributed systems, tooling, and best practices.",
+                "headline": "Steve Moss",
+                "name": "Steve Moss",
+                "url": "https://gawbul.io/"
+            }
+        </script>
+    </head>
+    <body>
+        <header class="site-header" role="banner">
+            <link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            />
+            <div class="wrapper">
+                <a class="site-title" href="/">Dr Steve Moss</a>
+                <nav class="site-nav">
+                    <input
+                        type="checkbox"
+                        id="nav-trigger"
+                        class="nav-trigger"
+                    />
+                    <label for="nav-trigger">
+                        <span class="menu-icon">
+                            <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                <path
+                                    fill="#424242"
+                                    d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"
+                                />
+                                <path
+                                    fill="#424242"
+                                    d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"
+                                />
+                                <path
+                                    fill="#424242"
+                                    d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"
+                                />
+                            </svg>
+                        </span>
+                    </label>
+                    <div class="trigger">
+                        <a
+                            class="page-link"
+                            href="https://about.me/gawbul"
+                            target="_blank"
+                            >About</a
+                        >
+                        <a
+                            class="page-link"
+                            href="https://medium.com/@gawbul"
+                            target="_blank"
+                            >Blog</a
+                        >
+                        <a
+                            class="page-link"
+                            href="https://github.com/gawbul"
+                            target="_blank"
+                            >Code</a
+                        >
+                        <a
+                            class="page-link"
+                            href="https://scholar.google.co.uk/citations?hl=en&user=KD8T2ZwAAAAJ"
+                            target="_blank"
+                            >Research</a
+                        >
+                        <a
+                            class="page-link"
+                            href="https://kubernetes.slack.com/team/U03SCNQM7DZ"
+                            target="_blank"
+                            >Slack</a
+                        >
+                        <a
+                            class="page-link"
+                            href="https://www.linkedin.com/in/gawbul"
+                            target="_blank"
+                            >Work</a
+                        >
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <main class="page-content" aria-label="Content">
+            <div class="wrapper">
+                <article class="post">
+                    <header class="post-header">
+                        <h1 class="post-title"></h1>
+                    </header>
+                    <div class="post-content">
+                        <p>
+                            <a
+                                href="https://www.instagram.com/gawbul/"
+                                target="_blank"
+                            >
+                                <img
+                                    alt="Steve Moss"
+                                    src="assets/profile.jpeg"
+                                    style="
+                                        float: right;
+                                        max-width: 33%;
+                                        margin: 0 0 1em 2em;
+                                        border-radius: 999px;
+                                    "
+                                />
+                            </a>
+                        </p>
+                        <p>
+                            I’m Steve Moss, a scientist, technologist, and
+                            engineer. I grew up in a small seaside town in the
+                            United Kingdom.
+                        </p>
+                        <p>
+                            My focus is on engineering
+                            <a
+                                href="https://en.wikipedia.org/wiki/Distributed_computing"
+                                target="_blank"
+                                >distributed systems</a
+                            >
+                            in production. I’m currently exploring the
+                            applications of AI in creating reliable, scalable,
+                            and efficient systems.
+                        </p>
+                        <p>
+                            Previously, I worked in bioinformatics and
+                            comparative genomics with a focus on genome
+                            evolution. I did so at various universities and
+                            research institutions across the globe, including
+                            the
+                            <a href="https://www.hull.ac.uk/" target="_blank"
+                                ><strong>University of Hull</strong></a
+                            >
+                            and the
+                            <a href="https://www.york.ac.uk/" target="_blank"
+                                ><strong>University of York</strong></a
+                            >.
+                        </p>
+                        <p>
+                            Working in research taught me many things about
+                            running reliable and reproducible analyses on
+                            large-scale
+                            <a
+                                href="https://en.wikipedia.org/wiki/High-performance_computing"
+                                target="_blank"
+                                ><strong>high-performance computing</strong></a
+                            >
+                            systems that has been particularly relevant to my
+                            work in industry. I have tried to bring the benefit
+                            of that experience to the companies I now work with.
+                        </p>
+                        <p>
+                            I graduated from the University of Hull, where I
+                            taught bioinformatics skills to staff and students
+                            as part of the
+                            <a href="https://www.davelunt.net/" target="_blank"
+                                >Lunt Lab</a
+                            >. The courses I taught became the foundation for
+                            several blog posts and articles on
+                            <a href="https://gawbul.medium.com/" target="_blank"
+                                ><strong>Medium</strong></a
+                            >. You can view my thesis
+                            <a
+                                href="https://hull-repository.worktribe.com/output/4217868"
+                                target="_blank"
+                                ><strong>here</strong></a
+                            >.
+                        </p>
+                        <p>
+                            My current focus is on advancing my knowledge of
+                            <a href="https://kubernetes.io/" target="_blank"
+                                ><strong>Kubernetes</strong></a
+                            >. To that end I have become a contributor to the
+                            <a
+                                href="https://www.kubernetes.dev/"
+                                target="_blank"
+                                >Kubernetes community</a
+                            >, participating in discussions and enabling the
+                            smooth running of the infrastructure as part of
+                            <a
+                                href="https://github.com/kubernetes/community/tree/master/sig-k8s-infra"
+                                target="_blank"
+                                >SIG K8s-Infra</a
+                            >. It is my goal to become a Kubernetes expert by
+                            achieving all certifications required for the
+                            <a
+                                href="https://www.cncf.io/training/kubestronaut/"
+                                target="_blank"
+                                >Kubestronaut program</a
+                            >.
+                        </p>
+                        <p>
+                            I’m active on
+                            <a href="https://github.com/gawbul" target="_blank"
+                                >GitHub</a
+                            >
+                            and aspire to become an
+                            <a
+                                href="https://instagram.com/gawbul"
+                                target="_blank"
+                                >Instagram</a
+                            >
+                            tech influencer. You can also find me on
+                            <a
+                                href="https://scholar.google.com/citations?user=KD8T2ZwAAAAJ&hl=en"
+                                target="_blank"
+                                >Google Scholar</a
+                            >.
+                        </p>
+                        <p>
+                            I enjoy learning about fun technical challenges and
+                            collaborating with great teams.
+                            <a
+                                href="&#109;&#097;&#105;&#108;&#116;&#111;:&#103;&#097;&#119;&#098;&#117;&#108;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;"
+                                target="_blank"
+                                >Reach out</a
+                            >
+                            if you want to find a way to work together!
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </main>
+        <footer class="site-footer">
+            <div class="wrapper">
+                <div class="footer-col-wrapper">
+                    <div class="footer-col footer-col-1">
+                        <ul class="contact-list">
+                            <li>
+                                <a
+                                    href="https://bsky.app/profile/gawbul.io"
+                                    target="_blank"
+                                    ><span class="icon icon--bluesky"
+                                        ><img
+                                            src="assets/bluesky.png"
+                                            alt="Bluesky"
+                                            title="Bluesky"
+                                            width="16"
+                                            height="16" /></span
+                                    ><span class="username"> gawbul.io</span></a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://github.com/gawbul"
+                                    target="_blank"
+                                    ><span class="icon icon--github"
+                                        ><img
+                                            src="assets/github.png"
+                                            alt="GitHub"
+                                            title="GitHub"
+                                            width="16"
+                                            height="16" /></span
+                                    ><span class="username"> gawbul</span></a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="&#109;&#097;&#105;&#108;&#116;&#111;:&#103;&#097;&#119;&#098;&#117;&#108;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;"
+                                    target="_blank"
+                                    ><span class="icon icon--gmail"
+                                        ><img
+                                            src="assets/gmail.png"
+                                            alt="Gmail"
+                                            title="Gmail"
+                                            width="16"
+                                            height="16" /></span
+                                    ><span class="username"> gawbul</span></a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://instagram.com/gawbul"
+                                    target="_blank"
+                                    ><span class="icon icon--instagram"
+                                        ><img
+                                            src="assets/instagram.png"
+                                            alt="Instagram"
+                                            title="Instagram"
+                                            width="16"
+                                            height="16" /></span
+                                    ><span class="username"> gawbul</span></a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://keybase.io/gawbul"
+                                    target="_blank"
+                                    ><span class="icon icon--keybase"
+                                        ><img
+                                            src="assets/keybase.png"
+                                            alt="Keybase"
+                                            title="Keybase"
+                                            width="16"
+                                            height="16" /></span
+                                    ><span class="username"> gawbul</span></a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://www.threads.net/@gawbul"
+                                    target="_blank"
+                                    ><span class="icon icon--threads"
+                                        ><img
+                                            src="assets/threads.png"
+                                            alt="Threads"
+                                            title="Threads"
+                                            width="16"
+                                            height="16" /></span
+                                    ><span class="username"> gawbul</span></a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col footer-col-2">
+                        <p>
+                            I help companies deploy their code into production.
+                            I write about distributed systems, tooling, and best
+                            practices.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <center>
+                <p style="font-size: 75%">
+                    <a
+                        rel="license"
+                        href="http://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                    >
+                        <img
+                            alt="Creative Commons Licence"
+                            style="border-width: 0"
+                            src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a
+                    ><br />
+                    This work is licensed under a
+                    <a
+                        rel="license"
+                        href="http://creativecommons.org/licenses/by-sa/4.0/"
+                        target="_blank"
+                        >Creative Commons Attribution-ShareAlike 4.0
+                        International License</a
+                    >.
+                </p>
+            </center>
+        </footer>
+    </body>
 </html>
