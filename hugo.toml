@@ -62,3 +62,7 @@ url = "posts/"
 [caches]
 [caches.images]
 dir = ":cacheDir/images"
+
+[services]
+[services.disqus]
+shortname = "gawbul"
