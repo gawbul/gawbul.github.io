@@ -15,11 +15,11 @@ googleAnalytics = "G-TR1N34LB3Y"
 enableRobotsTXT = true
 
 [params]
-    author = "Steve Moss"
-    authorImage = "profile.jpeg"
-    intro = "Scientist, technologist, engineer, and technical leader."
-    description = "I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
-    dateformat = "1 January 1970"
+  author = "Steve Moss"
+  authorimage = "profile.jpeg"
+  intro = "Scientist, technologist, engineer, and technical leader."
+  description = "I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
+  dateformat = "1 January 1970"
 
 [params.meta]
   description = "Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader."
