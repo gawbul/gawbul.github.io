@@ -17,7 +17,7 @@ author = "Steve Moss"
 intro = "Scientist, technologist, engineer, and technical leader."
 description = "I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
 authorimage = "profile.png"
-dateformat = "1 January 1970"
+dateformat = "2006-01-02 15:04:05"
 
 [params.meta]
 description = "Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader."
@@ -49,15 +49,15 @@ displayrssicon = true
 
 [menus]
 [[menus.main]]
-name = "posts"
-identifier = "posts"
-weight = 100
-url = "posts/"
-[[menus.main]]
 name = "about"
 identifier = "about"
-weight = 200
+weight = 100
 url = "about/"
+[[menus.main]]
+name = "posts"
+identifier = "posts"
+weight = 200
+url = "posts/"
 
 [caches]
 [caches.images]
