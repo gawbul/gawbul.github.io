@@ -1,0 +1,49 @@
+baseURL = 'https://www.gawbul.io/'
+languageCode = 'en-gb'
+title = 'Steve Moss'
+copyright = "Copyright &copy; 2025 - Dr Stephen P. Moss"
+canonifyurls = true
+theme = 'hugo-kiera'
+
+summaryLength = 30
+enableEmoji = true
+pygmentsCodeFences = true
+
+disqusShortname = "gawbul"
+googleAnalytics = "G-TR1N34LB3Y"
+
+[params.author]
+    name = "Steve Moss"
+    github = "gawbul"
+    #gitlab = "gawbul"
+    instagram = "gawbul"
+    keybase = "gawbul"
+    linkedin = "gawbul"
+    #facebook = "gawbul"
+    #twitter = "gawbul"
+    slack = "kubernetes"
+    stackoverflow = "gawbul"
+    #devto = "gawbul"
+    youtube = "user/gawbul"
+
+[params]
+    tagline = "The website of Dr Stephen P. Moss"
+    description = "Personal website of Dr Stephen P. Moss, scientist, technologist, engineer, and technical leader."
+    customCSS = []
+    favicon = "assets/favicon.png"
+    mathjax = true
+    disableDarkModeCSS = false # disables css style for users using dark-mode
+
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+  [[menus.main]]
+    name = 'About'
+    pageRef = '/about'
+    weight = 20
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.gawbul.io/about/</loc>
+    <lastmod>2025-10-25T13:20:32+01:00</lastmod>
+  </url><url>
+    <loc>https://www.gawbul.io/</loc>
+    <lastmod>2025-10-25T13:20:32+01:00</lastmod>
+  </url><url>
+    <loc>https://www.gawbul.io/posts/my-first-post/</loc>
+    <lastmod>2025-10-25T11:03:58+01:00</lastmod>
+  </url><url>
+    <loc>https://www.gawbul.io/posts/</loc>
+    <lastmod>2025-10-25T11:03:58+01:00</lastmod>
+  </url><url>
+    <loc>https://www.gawbul.io/categories/</loc>
+  </url><url>
+    <loc>https://www.gawbul.io/tags/</loc>
+  </url>
+</urlset>
