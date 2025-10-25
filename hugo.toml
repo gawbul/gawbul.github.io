@@ -14,10 +14,8 @@ enableRobotsTXT = true
 
 [params]
 author = "Dr Steve Moss"
-intro = "Scientist | Technologist | Engineer | Technical Leader"
-description = """I help companies deploy their code into production.
-
-I write about distributed systems, tooling, and best practices."""
+intro = "Scientist | Technologist | Engineer | Leader"
+description = "I help companies deploy their code into production"
 authorimage = "profile.png"
 dateformat = "2006-01-02 15:04:05"
 
