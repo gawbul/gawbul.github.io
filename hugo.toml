@@ -1,16 +1,13 @@
-baseurl = "https://www.gawbul.io/"
-builddrafts = false
-canonifyurls = true
+baseURL = "https://www.gawbul.io/"
+buildDrafts = false
+canonifyURLs = true
 languageCode = "en-GB"
+enableEmoji = true
+enableRobotsTXT = true
 
 author = "Steve Moss"
 title = "Dr Stephen P. Moss"
-
 theme = "hugo-goa"
-
-disqusShortname = "gawbul"
-googleAnalytics = "G-TR1N34LB3Y"
-enableRobotsTXT = true
 
 [params]
 author = "Dr Steve Moss"
@@ -62,3 +59,9 @@ url = "posts/"
 [caches]
 [caches.images]
 dir = ":cacheDir/images"
+
+[services]
+[services.disqus]
+shortname = "gawbul"
+[services.googleAnalytics]
+id = "G-TR1N34LB3Y"
