@@ -30,7 +30,7 @@ googleAnalytics = "G-TR1N34LB3Y"
     tagline = "The website of Dr Stephen P. Moss"
     description = "Personal website of Dr Stephen P. Moss, scientist, technologist, engineer, and technical leader."
     customCSS = []
-    favicon = "assets/favicon.png"
+    favicon = "img/favicon.png"
     mathjax = true
     disableDarkModeCSS = false # disables css style for users using dark-mode
 

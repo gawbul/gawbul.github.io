@@ -4,7 +4,7 @@ draft = false
 title = 'About'
 +++
 
-![Steve Moss](../assets/profile.jpeg)
+![Steve Moss](img/profile.jpeg)
 
 I’m Steve Moss, a scientist, technologist, and engineer. I grew up in a small seaside town in the United Kingdom.
 
