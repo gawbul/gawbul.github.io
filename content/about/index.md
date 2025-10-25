@@ -3,9 +3,6 @@ date = '2025-10-25T13:20:32+01:00'
 draft = false
 title = 'About'
 +++
-
-![Steve Moss](img/profile.jpeg)
-
 I’m Steve Moss, a scientist, technologist, and engineer. I grew up in a small seaside town in the United Kingdom.
 
 My focus is on engineering [distributed systems](https://en.wikipedia.org/wiki/Distributed_computing) in production. I’m currently exploring the applications of AI in creating reliable, scalable, and efficient systems.
