@@ -1,59 +1,64 @@
-baseURL = 'https://www.gawbul.io/'
+baseurl = "https://www.gawbul.io/"
+builddrafts = false
 canonifyurls = true
-languageCode = 'en-gb'
-author = 'Steve Moss'
-title = 'Dr Stephen P. Moss'
-copyright = "Copyright &copy; 2025 - Dr Stephen P. Moss"
-theme = 'hugo-goa'
+languageCode = "en-GB"
 
-summaryLength = 30
-enableEmoji = true
-pygmentsCodeFences = true
+author = "Steve Moss"
+title = "Dr Stephen P. Moss"
+
+theme = "hugo-goa"
 
 disqusShortname = "gawbul"
 googleAnalytics = "G-TR1N34LB3Y"
 enableRobotsTXT = true
 
 [params]
-  author = "Steve Moss"
-  authorimage = "profile.jpeg"
-  intro = "Scientist, technologist, engineer, and technical leader."
-  description = "I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
-  dateformat = "1 January 1970"
+author = "Steve Moss"
+intro = "Scientist, technologist, engineer, and technical leader."
+description = "I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
+authorimage = "profile.png"
+dateformat = "1 January 1970"
 
 [params.meta]
-  description = "Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader."
-  keywords = "gawbul, kubernetes, devops, sre, bioinformatics, genomics, evolution"
+description = "Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader."
+keywords = "gawbul,kubernetes,devops,sre,bioinformatics,genomics,evolution"
 
 [params.social]
-  github = "gawbul"
-  instagram = "gawbul"
-  linkedin = "gawbul"
-  googlescholar = "KD8T2ZwAAAAJ"
-  medium = "gawbul"
-  stackoverflow = "gawbul"
-  hackernews = "gawbul"
-  steam = "gawbul"
-  reddit = "g4wbul"
-  keybase = "gawbul"
-  email = "gawbul@gmail.com"
-  pgp = "C0D6248439F1D5604AAFFB4021D900FFDB233756"
+bluesky = "gawbul"
+github = "gawbul"
+instagram = "gawbul"
+linkedin = "gawbul"
+googlescholar = "KD8T2ZwAAAAJ"
+orcid = "0000-0002-1399-293X"
+medium = "gawbul"
+stackoverflow = "gawbul"
+hackernews = "gawbul"
+steam = "gawbul"
+reddit = "g4wbul"
+keybase = "gawbul"
+email = "gawbul@gmail.com"
+pgp = "C0D6248439F1D5604AAFFB4021D900FFDB233756"
 
 [params.extra]
-  copyright = "This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/)"
-  poweredby = true
-  socialmarkup = true
+copyright = "This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/)"
+poweredby = true
+highlightjs = true
+socialmarkup = true
+toc = true
+displayrssicon = true
 
 [menus]
-  [[menus.main]]
-    name = 'posts'
-    pageRef = '/posts'
-    weight = 10
-  [[menus.main]]
-    name = 'about'
-    pageRef = '/about'
-    weight = 20
+[[menus.main]]
+name = "posts"
+identifier = "posts"
+weight = 100
+url = "posts/"
+[[menus.main]]
+name = "about"
+identifier = "about"
+weight = 200
+url = "about/"
 
 [caches]
-  [caches.images]
-    dir = ':cacheDir/images'
+[caches.images]
+dir = ":cacheDir/images"
