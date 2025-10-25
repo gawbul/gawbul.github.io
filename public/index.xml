@@ -1,25 +1,27 @@
-
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
- <channel>
-   <title>Steve Moss</title>
-   <link>https://www.gawbul.io/</link>
-   <description>Recent content on Steve Moss</description>
-   <generator>Hugo -- gohugo.io</generator>
-   <language>en-gb</language>
-   <copyright>Copyright &amp;copy; 2025 - Dr Stephen P. Moss</copyright>
-   <lastBuildDate>Sat, 25 Oct 2025 13:20:32 +0100</lastBuildDate>
-   
-       <atom:link href="https://www.gawbul.io/index.xml" rel="self" type="application/rss+xml" />
-   
-   
-     <item>
-       <title>New Static Site Generator</title>
-       <link>https://www.gawbul.io/posts/my-first-post/</link>
-       <pubDate>Sat, 25 Oct 2025 11:03:58 +0100</pubDate>
-       
-       <guid>https://www.gawbul.io/posts/my-first-post/</guid>
-       <description>&lt;h2 id=&#34;new-static-site-generator&#34;&gt;New Static Site Generator&lt;/h2&gt;&lt;p&gt;This is my new website built using &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;I&amp;rsquo;ll be slowly moving my blog posts over from &lt;a href=&#34;https://gawbul.medium.com/&#34;&gt;Medium&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Please check back for new content in due course.&lt;/p&gt;</description>
-     </item>
-   
- </channel>
+  <channel>
+    <title>Dr Stephen P. Moss</title>
+    <link>https://www.gawbul.io/</link>
+    <description>Recent content on Dr Stephen P. Moss</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <copyright>Copyright &amp;copy; 2025 - Dr Stephen P. Moss</copyright>
+    <lastBuildDate>Sat, 25 Oct 2025 13:20:32 +0100</lastBuildDate>
+    <atom:link href="https://www.gawbul.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://www.gawbul.io/about/</link>
+      <pubDate>Sat, 25 Oct 2025 13:20:32 +0100</pubDate>
+      <guid>https://www.gawbul.io/about/</guid>
+      <description>&lt;p&gt;I’m Steve Moss, a scientist, technologist, and engineer. I grew up in a small seaside town in the United Kingdom.&lt;/p&gt;&#xA;&lt;p&gt;My focus is on engineering &lt;a href=&#34;https://en.wikipedia.org/wiki/Distributed_computing&#34;&gt;distributed systems&lt;/a&gt; in production. I’m currently exploring the applications of AI in creating reliable, scalable, and efficient systems.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>New Static Site Generator</title>
+      <link>https://www.gawbul.io/posts/my-first-post/</link>
+      <pubDate>Sat, 25 Oct 2025 11:03:58 +0100</pubDate>
+      <guid>https://www.gawbul.io/posts/my-first-post/</guid>
+      <description>&lt;h2 id=&#34;new-static-site-generator&#34;&gt;New Static Site Generator&lt;/h2&gt;&#xA;&lt;p&gt;This is my new website built using &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;I&amp;rsquo;ll be slowly moving my blog posts over from &lt;a href=&#34;https://gawbul.medium.com/&#34;&gt;Medium&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Please check back for new content in due course.&lt;/p&gt;</description>
+    </item>
+  </channel>
 </rss>

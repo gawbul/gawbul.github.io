@@ -1,9 +1,10 @@
 baseURL = 'https://www.gawbul.io/'
-languageCode = 'en-gb'
-title = 'Steve Moss'
-copyright = "Copyright &copy; 2025 - Dr Stephen P. Moss"
 canonifyurls = true
-theme = 'hugo-kiera'
+languageCode = 'en-gb'
+author = 'Steve Moss'
+title = 'Dr Stephen P. Moss'
+copyright = "Copyright &copy; 2025 - Dr Stephen P. Moss"
+theme = 'hugo-goa'
 
 summaryLength = 30
 enableEmoji = true
@@ -11,36 +12,45 @@ pygmentsCodeFences = true
 
 disqusShortname = "gawbul"
 googleAnalytics = "G-TR1N34LB3Y"
-
-[params.author]
-    name = "Steve Moss"
-    github = "gawbul"
-    #gitlab = "gawbul"
-    instagram = "gawbul"
-    keybase = "gawbul"
-    linkedin = "gawbul"
-    #facebook = "gawbul"
-    #twitter = "gawbul"
-    slack = "kubernetes"
-    stackoverflow = "gawbul"
-    #devto = "gawbul"
-    youtube = "user/gawbul"
+enableRobotsTXT = true
 
 [params]
-    tagline = "The website of Dr Stephen P. Moss"
-    description = "Personal website of Dr Stephen P. Moss, scientist, technologist, engineer, and technical leader."
-    customCSS = []
-    favicon = "img/favicon.png"
-    mathjax = true
-    disableDarkModeCSS = false # disables css style for users using dark-mode
+    author = "Steve Moss"
+    authorImage = "profile.jpeg"
+    intro = "Scientist, technologist, engineer, and technical leader."
+    description = "I help companies deploy their code into production. I write about distributed systems, tooling, and best practices."
+    dateformat = "1 January 1970"
+
+[params.meta]
+  description = "Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader."
+  keywords = "gawbul, kubernetes, devops, sre, bioinformatics, genomics, evolution"
+
+[params.social]
+  github = "gawbul"
+  instagram = "gawbul"
+  linkedin = "gawbul"
+  googlescholar = "KD8T2ZwAAAAJ"
+  medium = "gawbul"
+  stackoverflow = "gawbul"
+  hackernews = "gawbul"
+  steam = "gawbul"
+  reddit = "g4wbul"
+  keybase = "gawbul"
+  email = "gawbul@gmail.com"
+  pgp = "C0D6248439F1D5604AAFFB4021D900FFDB233756"
+
+[params.extra]
+  copyright = "This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/)"
+  poweredby = true
+  socialmarkup = true
 
 [menus]
   [[menus.main]]
-    name = 'Home'
-    pageRef = '/'
+    name = 'posts'
+    pageRef = '/posts'
     weight = 10
   [[menus.main]]
-    name = 'About'
+    name = 'about'
     pageRef = '/about'
     weight = 20
 
