@@ -6,7 +6,7 @@
     <description>Recent content on Dr Stephen P. Moss</description>
     <generator>Hugo</generator>
     <language>en-GB</language>
-    <lastBuildDate>Sat, 25 Oct 2025 13:20:32 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 14 Nov 2025 14:28:50 +0000</lastBuildDate>
     <atom:link href="https://www.gawbul.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
@@ -21,6 +21,20 @@
       <pubDate>Sat, 25 Oct 2025 11:03:58 +0100</pubDate>
       <guid>https://www.gawbul.io/posts/my-first-post/</guid>
       <description>&lt;h2 id=&#34;new-static-site-generator&#34;&gt;New Static Site Generator&lt;/h2&gt;&#xA;&lt;p&gt;This is my new website built using &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;I&amp;rsquo;ll be slowly moving my blog posts over from &lt;a href=&#34;https://gawbul.medium.com/&#34;&gt;Medium&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;Please check back for new content in due course.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Optimising Kubernetes deployment with local continuous development tooling</title>
+      <link>https://www.gawbul.io/posts/optimising-kubernetes-deployment-with-local-continuous-development-tooling/</link>
+      <pubDate>Sun, 22 Jun 2025 15:33:27 +0000</pubDate>
+      <guid>https://www.gawbul.io/posts/optimising-kubernetes-deployment-with-local-continuous-development-tooling/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://www.gawbul.io/skaffold-terminal.png&#34; alt=&#34;Skaffold Terminal&#34; title=&#34;Skaffold running in a control loop watching for changes&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;Something I’ve noticed through my work with Kubernetes is that it can be challenging to test things properly locally before deploying.&lt;/p&gt;&#xA;&lt;p&gt;There are plenty of tools for testing things in continuous integration pipelines and as part of continuous deployment, but there aren’t many tools for increasing your confidence that your Kubernetes-based application (code and associated Helm charts, for example), will deploy properly without issues the first time.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Building a four-node Raspberry Pi 5 cluster</title>
+      <link>https://www.gawbul.io/posts/building-a-four-node-raspberry-pi-5-cluster/</link>
+      <pubDate>Sat, 22 Mar 2025 12:37:21 +0000</pubDate>
+      <guid>https://www.gawbul.io/posts/building-a-four-node-raspberry-pi-5-cluster/</guid>
+      <description>&lt;p&gt;I’ve been doing a lot of work with &lt;a href=&#34;https://kubernetes.io&#34;&gt;Kubernetes&lt;/a&gt; recently.&lt;/p&gt;&#xA;&lt;p&gt;My day job is as a &lt;a href=&#34;https://sre.google/&#34;&gt;Site Reliability Engineer&lt;/a&gt;, and I spend my spare time as a Research Consultant, primarily in &lt;a href=&#34;https://en.wikipedia.org/wiki/Bioinformatics&#34;&gt;Bioinformatics&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Computational_genomics&#34;&gt;Computational Genomics&lt;/a&gt;. Both of these disciplines require an understanding of &lt;a href=&#34;https://en.wikipedia.org/wiki/Distributed_computing&#34;&gt;distributed&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/High-performance_computing&#34;&gt;high-performance&lt;/a&gt; computing. Kubernetes is particularly relevant to &lt;a href=&#34;https://en.wikipedia.org/wiki/Scalability&#34;&gt;scaling&lt;/a&gt; various workloads.&lt;/p&gt;&#xA;&lt;p&gt;As part of my learning and development, I decided to build a home lab that would allow me to test various tools and concepts in a safe environment without requiring me to regularly pay for a &lt;a href=&#34;https://cloud.google.com/kubernetes-engine?hl=en&#34;&gt;Google Kubernetes Engine&lt;/a&gt; cluster in &lt;a href=&#34;https://cloud.google.com/gcp&#34;&gt;Google Cloud Platform&lt;/a&gt; (I know there are other Cloud providers, but I prefer Google).&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

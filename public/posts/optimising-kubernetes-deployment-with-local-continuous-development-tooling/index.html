@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+    <head>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        
+        <meta name="description" content="Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader.">
+        
+        <meta name="keywords" content="gawbul,kubernetes,devops,sre,bioinformatics,genomics,evolution">
+
+        <title>
+              Dr Stephen P. Moss - Optimising Kubernetes deployment with local continuous development tooling 
+        </title>
+
+        <meta name="generator" content="Hugo 0.152.2">
+
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+        
+
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Slab:wght@400;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://www.gawbul.io/css/main.css">
+        <link rel="stylesheet" href="https://www.gawbul.io/css/custom.css">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="https://www.gawbul.io/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://www.gawbul.io/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://www.gawbul.io/favicon-16x16.png">
+        <link rel="manifest" href="https://www.gawbul.io/site.webmanifest">
+        <meta name="theme-color" content="#ffffff"></head>
+
+    <body lang="en-GB">
+        <div class="container my-auto">
+
+<header class="text-start title">
+  <h1 class="title">Optimising Kubernetes deployment with local continuous development tooling</h1>
+</header>
+
+<section id="category-pane" class="meta">
+  
+  <div class="d-flex flex-column flex-md-row justify-content-between">
+    <h6 class="text-start meta">
+       PUBLISHED ON 2025-06-22 15:33:27
+      
+      / 8 MIN READ
+      
+    </h6>
+  </div>
+  
+</section>
+
+<section id="content-pane">
+  <div class="text-justify content">
+    
+    <nav id="TableOfContents"></nav>
+    
+    <p><img src="https://www.gawbul.io/skaffold-terminal.png" alt="Skaffold Terminal" title="Skaffold running in a control loop watching for changes"></p>
+<p>Something I’ve noticed through my work with Kubernetes is that it can be challenging to test things properly locally before deploying.</p>
+<p>There are plenty of tools for testing things in continuous integration pipelines and as part of continuous deployment, but there aren’t many tools for increasing your confidence that your Kubernetes-based application (code and associated Helm charts, for example), will deploy properly without issues the first time.</p>
+<p>I’ve seen people deploying to a dev cluster to test changes without first doing any checks locally. It’s a bit like Russian roulette, and the feedback loop is slow, especially if you need to first push a change to a repository and wait for CI workflows to complete, before you change is eventually deployed.</p>
+<p>The local development workflow is set up well for running local unit tests, for example, and maybe running integration tests in a Docker Compose setup. There are also tools such as <a href="https://github.com/yannh/kubeconform">Kubeconform</a> for linting and validating your manifests. But, when it comes to making sure your application will deploy onto Kubernetes without incident, things are less well defined.</p>
+<p>This is where tools such as <a href="https://skaffold.dev/">Skaffold</a>, <a href="https://tilt.dev/">Tilt</a>, <a href="https://github.com/Azure/draft/">Draft</a> or <a href="https://garden.io/">Garden</a> come in.</p>
+<p>I won’t go into the pros and cons of each tool here. There are other blog posts for that, but I will discuss why I decided on Skaffold and go into the workflow and setup for Skaffold locally.</p>
+<p><img src="https://www.gawbul.io/skaffold-logo.png" alt="img" title="Skaffold logo"></p>
+<p>Skaffold is a tool from <a href="https://about.google/">Google</a> designed to enable “Easy and Repeatable Kubernetes Development”. It’s available open-source <a href="https://github.com/GoogleContainerTools/skaffold">on GitHub</a> and has extensive <a href="https://skaffold.dev/docs/">documentation</a> available on its main website.</p>
+<p>I decided to use Skaffold for my local Kubernetes development because it’s open-source, it’s lightweight, it’s easy to learn, it has the backing of Google who are essentially the creators of Kubernetes, it allows for running different types of tests against containers, and it enables continuous development by watching changes to your source-code in real-time and automatically building and deploying to your cluster.</p>
+<p>You can install it using one of its <a href="https://skaffold.dev/docs/install/#managed-ide">IDE plugins</a> or as a <a href="https://skaffold.dev/docs/install/#standalone-binary">standalone binary</a>. I decided to install using the <a href="https://skaffold.dev/docs/install/#homebrew">Homebrew package</a> as I am running <a href="https://www.apple.com/uk/macos/macos-sequoia/">macOS</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install skaffold
+</span></span></code></pre></div><p>Once installed, you can browse to your application repository (such as this <a href="https://github.com/gawbul/kubernetes-example-application">Kubernetes Example Application</a>) and initialise the Skaffold config using a simple:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold init
+</span></span></code></pre></div><p>As long as you have the basics set up, such as your source code, Helm charts, and Dockerfile, it should create a simple <code>skaffold.yaml</code> configuration file, much like the following (for builder I selected <code>Docker</code> and for buildpacks I selected <code>go.mod</code>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">artifacts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ghcr.io/gawbul</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">docker</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">deploy</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">helm</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">releases</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">chartPath</span>: <span style="color:#ae81ff">helm-chart</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">valuesFiles</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">helm-chart/values.yaml</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.0.1</span>
+</span></span></code></pre></div><p>This would allow you to build an image for the relevant application based on the Dockerfile and deploy it using Helm to your Kubernetes cluster.</p>
+<p>You could very simply run the following to build the image and deploy to your cluster:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold run
+</span></span></code></pre></div><p>However, there are a few things that aren’t considered here.</p>
+<ol>
+<li>The image references GitHub Container Registry. We need to push the image to the registry and also set up <code>imagePullSecrets</code> to ensure the cluster can pull the image down (otherwise we’ll end up with <code>ImagePullBackOff</code>).</li>
+<li>The image value isn’t set properly (it only includes the registry and the owner, and not the actual image name).</li>
+<li>The values file is pointing at the Helm chart defaults, which may not include all the values we need.</li>
+</ol>
+<p>This post won’t go into setting up your cluster to access GitHub Container Registry, although see the README <a href="https://github.com/gawbul/kubernetes-example-application/blob/main/README.md">here</a> for a guide on how to set up <a href="https://kind.sigs.k8s.io/">KinD</a> locally with all the relevant configuration.</p>
+<p>A more appropriate <code>skaffold.yaml</code> to use once you have everything set up would be the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">platforms</span>: [<span style="color:#e6db74">&#34;linux/arm64&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">artifacts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ghcr.io/gawbul/kubernetes-example-application</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">docker</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">buildArgs</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">TARGETOS</span>: <span style="color:#ae81ff">linux</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">local</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">push</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">deploy</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">helm</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">releases</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">chartPath</span>: <span style="color:#ae81ff">helm-chart/</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">valuesFiles</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">environments/common.values.yaml</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">environments/dev.values.yaml</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">setValueTemplates</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">global.image.registry</span>: <span style="color:#e6db74">&#34;{{.IMAGE_REPO_ghcr_io_gawbul_kubernetes_example_application}}&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">global.image.tag</span>: <span style="color:#e6db74">&#34;{{.IMAGE_TAG_ghcr_io_gawbul_kubernetes_example_application}}@{{.IMAGE_DIGEST_ghcr_io_gawbul_kubernetes_example_application}}&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">test</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ghcr.io/gawbul/kubernetes-example-application</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">structureTests</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;./structure-tests/*&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">verify</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application-health-check</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application-health-check</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">alpine/curl:8.14.1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;curl&#39;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>: [<span style="color:#e6db74">&#39;-s&#39;</span>, <span style="color:#e6db74">&#39;http://kubernetes-example-application.default.svc.cluster.local:8080&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">executionMode</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubernetesCluster</span>: {}
+</span></span></code></pre></div><p>This is based on the structure of the Kubernetes Example Application repository linked above.</p>
+<p>It does a few things differently:</p>
+<ol>
+<li>It sets the target platform as <code>linux/arm64</code> as I’m running on a <a href="https://www.apple.com/uk/macbook-pro/">MacBook Pro</a> with <a href="https://en.wikipedia.org/wiki/Apple_silicon">Apple silicon</a>.</li>
+<li>It adds a <code>TARGETOS</code> build-arg based on the setup in the Dockerfile for multi-platform builds.</li>
+<li>It sets the local build argument <code>push</code> to <code>true</code> so that we build and push the image to the registry, rather than just storing it in the local build cache.</li>
+<li>It adds separate values files, including a common values file with values relevant to all environments, and an environment-specific <code>dev</code> values file with values specific to the <code>dev</code> environment.</li>
+<li>It uses <code>setValueTemplates</code> to override and inject the registry and tag into the values files, so that we can build dynamic image tags and have Skaffold be able to automatically reference them.</li>
+<li>It adds a <code>test</code> section with a reference to <a href="https://github.com/GoogleContainerTools/container-structure-test">Container Structure Tests</a> used for validating the built image.</li>
+<li>It adds a <code>verify</code> section, which creates an ad-hoc container used to verify that the application has been deployed correctly.</li>
+</ol>
+<p>Now, when we do a <code>skaffold run</code> it builds the image locally (if it doesn’t already exist) and pushes the image to GitHub Container Registry, it then runs the container structure tests to ensure the image was built correctly, before finally deploying the application to the Kubernetes cluster using Helm.</p>
+<p>If you followed the guide above using a clone of the repository, you should then be able to do the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k https://kubernetes.localhost:8443/kubernetes-example-application
+</span></span></code></pre></div><p>Which returns the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Hello from Kubernetes!%
+</span></span></code></pre></div><p>You can then verify the deployment using:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold verify
+</span></span></code></pre></div><p>Which should return the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Loading images into kind cluster nodes...  
+</span></span><span style="display:flex;"><span>Images loaded in 41ns  
+</span></span><span style="display:flex;"><span>[kubernetes-example-application-health-check] Hello from Kubernetes!
+</span></span></code></pre></div><p>The steps above have allowed you to confirm that your image has been built correctly and is structured in the manner you expect, as well as verifying that it has been deployed and is running correctly in your Kubernetes cluster.</p>
+<p>The test step can test various components of your image (see the [README] (<a href="https://github.com/GoogleContainerTools/container-structure-test/blob/main/README.md)for">https://github.com/GoogleContainerTools/container-structure-test/blob/main/README.md)for</a> more details of the different tests), but in this case is just using base file existence and metadata tests:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">schemaVersion</span>: <span style="color:#ae81ff">2.0.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">fileExistenceTests</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;app directory should not exist&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">path</span>: <span style="color:#e6db74">&#39;/app&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">shouldExist</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;main binary should exist&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">path</span>: <span style="color:#e6db74">&#39;/main&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">shouldExist</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadataTest</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">cmd</span>: [<span style="color:#e6db74">&#39;/main&#39;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">entrypoint</span>: []
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">key</span>: <span style="color:#e6db74">&#39;org.opencontainers.image.source&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;https://github.com/gawbul/kubernetes-example-application&#39;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">key</span>: <span style="color:#e6db74">&#39;org.opencontainers.image.description&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;Kubernetes Example Application&#39;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">key</span>: <span style="color:#e6db74">&#39;org.opencontainers.image.title&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#39;Kubernetes Example Application&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">exposedPorts</span>: [<span style="color:#e6db74">&#39;8080&#39;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">user</span>: <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">volumes</span>: []
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workdir</span>: <span style="color:#e6db74">&#39;/&#39;</span>
+</span></span></code></pre></div><p>This checks that an <code>/app</code> directory doesn’t exist (this should only exist in the build step), checks that a <code>/main</code> binary exists, and checks various elements of the image metadata, including the labels and exposed ports. All very useful checks for ensuring your image is structured as it should be.</p>
+<p>To remove the resources from your local cluster once you’re happy, you just need to do the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold delete
+</span></span></code></pre></div><p>To build and test a standalone image, you can do the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold build --filename<span style="color:#f92672">=</span>skaffold.yaml --file-output<span style="color:#f92672">=</span>build.json  
+</span></span><span style="display:flex;"><span>skaffold test --build-artifacts<span style="color:#f92672">=</span>build.json
+</span></span></code></pre></div><p>The <code>build.json</code> is structured as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;builds&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;imageName&#34;</span>: <span style="color:#e6db74">&#34;ghcr.io/gawbul/kubernetes-example-application&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;tag&#34;</span>: <span style="color:#e6db74">&#34;ghcr.io/gawbul/kubernetes-example-application:0a91c77@sha256:5df4b0c92b7435cfcd0d9be9d9ed5a095284882c07345fd895884c9fb61e2cdf&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>One of the most powerful pieces of functionality of Skaffold, however, is the ability to test changes to your code and Helm charts in real-time.</p>
+<p>You can run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold dev
+</span></span></code></pre></div><p>This does the same as <code>skaffold run</code> but adds a control loop at the end, which watches your application for changes. You can then update the source code for your application or the associated Helm charts, and it automatically rebuilds the image, and/or redeploys the Helm chart as appropriate. Once you’re finished, you just hit Ctrl+C and it automatically cleans up for you.</p>
+<p>This is valuable when you&rsquo;re trying to iterate on components of your application to debug issues with your code or deployment, for example.</p>
+<p><a href="https://www.loom.com/share/5547f88ac64c4340a5a4ef75eb2ccbf1"><img src="https://cdn.loom.com/sessions/thumbnails/5547f88ac64c4340a5a4ef75eb2ccbf1-26b880030fd1be3e-full-play.gif#t=0.1" alt="Demonstrating Scaffold Dev" title="Demonstrating Skaffold Dev"></a></p>
+<p>Skaffold isn’t just limited to single repository deployments either. If you have a selection of microservices that integrate together, you can use Skaffold to test your changes in one application alongside the others.</p>
+<p>For example, you might have the following <code>skaffold-all.yaml</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-services</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">requires</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">configs</span>: [<span style="color:#e6db74">&#34;kubernetes-micro-service-one&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">git</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">git@github.com:gawbul/kubernetes-micro-service-one.git</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">path</span>: <span style="color:#ae81ff">skaffold.yaml</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ref</span>: <span style="color:#ae81ff">main</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">configs</span>: [<span style="color:#e6db74">&#34;kubernetes-micro-service-two&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">git</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">git@github.com:gawbul/kubernetes-micro-service-two.git</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">path</span>: <span style="color:#ae81ff">skaffold.yaml</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ref</span>: <span style="color:#ae81ff">main</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">configs</span>: [<span style="color:#e6db74">&#34;kubernetes-micro-service-three&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">git</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">git@github.com:gawbul/kubernetes-micro-service-three.git</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">path</span>: <span style="color:#ae81ff">skaffold.yaml</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ref</span>: <span style="color:#ae81ff">main</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">build</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">local</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">push</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">artifacts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ghcr.io/gawbul/kubernetes-micro-service-four</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">docker</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">dockerfile</span>: <span style="color:#ae81ff">Dockerfile</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">deploy</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">helm</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">releases</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-four</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">chartPath</span>: <span style="color:#ae81ff">helm-chart/</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">valuesFiles</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">environments/common.values.yaml</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">environments/dev.values.yaml</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">setValueTemplates</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">global.image.registry</span>: <span style="color:#e6db74">&#34;{{.IMAGE_REPO_ghcr_io_gawbul_kubernetes_micro_service_four}}&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">global.image.tag</span>: <span style="color:#e6db74">&#34;{{.IMAGE_TAG_ghcr_io_gawbul_kubernetes_micro_service_four}}@{{.IMAGE_DIGEST_ghcr_io_gawbul_kubernetes_micro_service_four}}&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">test</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ghcr.io/gawbul/kubernetes-micro-service-four</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">structureTests</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;./structure-tests/*&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">verify</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-one-health-check</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-one-health-check</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">alpine/curl:8.14.1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;curl&#39;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>: [<span style="color:#e6db74">&#39;-s&#39;</span>, <span style="color:#e6db74">&#39;http://kubernetes-micro-service-one.default.svc.cluster.local:8000/health&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">executionMode</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubernetesCluster</span>: {}
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-two-health-check</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-two-health-check</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">alpine/curl:8.14.1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;curl&#39;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>: [<span style="color:#e6db74">&#39;-s&#39;</span>, <span style="color:#e6db74">&#39;http://kubernetes-micro-service-two.default.svc.cluster.local:8001/health&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">executionMode</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubernetesCluster</span>: {}
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-three-health-check</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-three-health-check</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">alpine/curl:8.14.1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;curl&#39;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>: [<span style="color:#e6db74">&#39;-s&#39;</span>, <span style="color:#e6db74">&#39;http://kubernetes-micro-service-three.default.svc.cluster.local:8002/health&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">executionMode</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubernetesCluster</span>: {}
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-four-health-check</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">container</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-service-four-health-check</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">alpine/curl:8.14.1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#39;curl&#39;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>: [<span style="color:#e6db74">&#39;-s&#39;</span>, <span style="color:#e6db74">&#39;http://kubernetes-micro-service-four.default.svc.cluster.local:8003/health&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">executionMode</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubernetesCluster</span>: {}
+</span></span></code></pre></div><p>This pulls in the Skaffold config from three separate micro-service repositories and allows you to build your current application alongside it to run integration and end-to-end tests if you wish.</p>
+<p>Additionally, Skaffold can use any local kubeconfig to access clusters that may not be local. So, if you have access to a remote <a href="https://cloud.google.com/kubernetes-engine">GKE</a> or <a href="https://aws.amazon.com/eks/">EKS</a> cluster for example, then you can use it to deploy there too. This is especially useful if your remote cluster is configured in a way that might be more difficult to replicate locally, such as if there are specific <a href="https://kubernetes.io/docs/concepts/services-networking/network-policies/">network policies</a> or <a href="https://kyverno.io/">Kyverno</a> policies in place.</p>
+<p>In order to visually validate that your application(s) have been deployed you can use <a href="https://kubernetes.io/docs/reference/kubectl/">kubectl</a> to inspect the pods for example. However, one of the things the Skaffold is lacking that tools such as Tilt and Garden have, is a UI. This wasn’t something that bothered me, and the licensing implications meant that Skaffold was even more attractive.</p>
+<p>If you want a UI to visualise your resources then there are plenty available. Two that I rate highly are <a href="https://k9scli.io/">k9s</a> and <a href="https://headlamp.dev/">Headlamp</a>.</p>
+<p>So, if you want to improve the speed of development when it comes to Kubernetes, I thoroughly recommend you check out Skaffold and spend some time learning about it’s capabilities. I’ve only touched the surface here. Check out the <a href="https://skaffold.dev/">website</a> for much more detail on what it can do!</p>
+
+  </div>
+</section>
+
+<section id="tag-pane" class="meta">
+  
+  <div class="d-flex flex-column flex-md-row justify-content-between">
+    <h6 class="text-end meta">
+      
+    </h6>
+  </div>
+  
+</section>
+
+
+
+<div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "gawbul" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+<section id="menu-pane" class="menu text-center">
+  
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      
+      
+      <li class="menu-item">
+        <a class="menu-item" href="https://www.gawbul.io/posts/building-a-four-node-raspberry-pi-5-cluster/">&lt; prev</a>
+      </li>
+      
+
+      <li class="menu-item">
+        
+        <span class="menu-item">&nbsp;|&nbsp;</span>
+        
+        <a class="menu-item" href="https://www.gawbul.io/posts">posts</a>
+        
+        <span class="menu-item">&nbsp;|&nbsp;</span>
+        
+      </li>
+
+      
+      <li class="menu-item">
+        <a class="menu-item" href="https://www.gawbul.io/posts/my-first-post/">next &gt;</a>
+      </li>
+      
+      
+    </ul>
+  </nav>
+  
+  <h4 class="text-center mt-3"><a class="menu-item" href="https://www.gawbul.io/">home</a></h4>
+</section>
+
+<footer class="text-center footer">
+  <hr />
+  
+  <h6 class="text-center copyright">This work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></h6>
+  
+  <h6 class="text-center powered"><a href="https://gohugo.io/">Hugo</a> <a
+      href="https://github.com/shenoydotme/hugo-goa">Goa</a> by <a href="https://shenoy.me">shenoydotme</a> and <a
+      href="https://incirclemedia.com">Incircle Media</a></h6>
+  
+  
+  <h6>
+    <a href="https://www.gawbul.io/index.xml" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a>
+  </h6>
+  
+  
+
+</footer>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+
+<script>hljs.highlightAll();</script>
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR1N34LB3Y"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-TR1N34LB3Y');
+        }
+      </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://www.gawbul.io/js/custom.js"></script>
+</body>
+
+</html>
+
