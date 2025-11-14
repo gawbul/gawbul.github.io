@@ -173,7 +173,7 @@ Images loaded in 41ns
 
 The steps above have allowed you to confirm that your image has been built correctly and is structured in the manner you expect, as well as verifying that it has been deployed and is running correctly in your Kubernetes cluster.
 
-The test step can test various components of your image (see the [README] (https://github.com/GoogleContainerTools/container-structure-test/blob/main/README.md)for more details of the different tests), but in this case is just using base file existence and metadata tests:
+The test step can test various components of your image (see the [README](https://github.com/GoogleContainerTools/container-structure-test/blob/main/README.md) for more details of the different tests), but in this case is just using base file existence and metadata tests:
 
 ```yaml
 schemaVersion: 2.0.0
