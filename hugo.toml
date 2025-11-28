@@ -11,7 +11,7 @@ theme = "hugo-goa"
 
 [params]
 author = "Dr Steve Moss"
-intro = "Scientist | Technologist | Engineer | Leader"
+intro = "Scientist | Technologist | Engineer"
 description = "I help companies deploy their code into production"
 authorimage = "profile.png"
 dateformat = "2006-01-02 15:04:05"
