@@ -3,4 +3,4 @@
 	url = https://github.com/funkydan2/hugo-kiera.git
 [submodule "themes/hugo-goa"]
 	path = themes/hugo-goa
-	url = https://github.com/shenoydotme/hugo-goa.git
+	url = git@github.com:gawbul/hugo-goa.git
