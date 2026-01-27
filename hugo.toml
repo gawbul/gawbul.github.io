@@ -11,8 +11,8 @@ theme = "hugo-goa"
 
 [params]
 author = "Dr Steve Moss"
-intro = "Scientist | Technologist | Engineer"
-description = "I help companies deploy their code into production"
+intro = "Scientist | Technologist | Engineer | Builder"
+description = "Architecting reliable, autonomous systems for the next generation of AI and Genomics."
 authorimage = "profile.png"
 dateformat = "2006-01-02 15:04:05"
 
