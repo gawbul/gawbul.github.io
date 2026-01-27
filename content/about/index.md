@@ -3,18 +3,32 @@ date = '2025-10-25T13:20:32+01:00'
 draft = false
 title = 'About'
 +++
-I’m Steve Moss, a scientist, technologist, and engineer. I grew up in a small seaside town in the United Kingdom.
+I’m Steve Moss — a scientist, technologist, and engineer.
 
-My focus is on engineering [distributed systems](https://en.wikipedia.org/wiki/Distributed_computing) in production. I’m currently exploring the applications of AI in creating reliable, scalable, and efficient systems.
+I grew up in a small seaside town in the UK, spent years as a bouncer, became a Doctor of [Computational Genomics](https://en.wikipedia.org/wiki/Computational_genomics), and now work at the bleeding edge of [Site Reliability Engineering (SRE)](https://en.wikipedia.org/wiki/Site_reliability_engineering).
 
-Previously, I worked in bioinformatics and comparative genomics with a focus on genome evolution. I did so at various universities and research institutions across the globe, including the [University of Hull](https://www.hull.ac.uk/) and the [University of York](https://www.york.ac.uk/).
+**The Pivot: From Orchestration to Autonomy**
 
-Working in research taught me many things about running reliable and reproducible analyses on large-scale [high-performance computing](https://en.wikipedia.org/wiki/High-performance_computing) systems that has been particularly relevant to my work in industry. I have tried to bring the benefit of that experience to the companies I now work with.
+For a long time, my goal was to collect Kubernetes certifications. But the landscape has shifted, and so have I.
 
-I graduated from the University of Hull, where I taught bioinformatics and Linux skills to staff and students as part of the [Lunt Lab](https://www.davelunt.net/). It is my aim to use the content of the courses I taught as the foundation for several blog posts and articles on [this site](https://www.gawbul.io/). You can view my thesis [here](https://hull-repository.worktribe.com/output/4217868).
+I am now focused on [Agentic AI](https://en.wikipedia.org/wiki/AI_agent) and [Autonomous Systems](https://en.wikipedia.org/wiki/Autonomous_agent). I believe the future isn't just about managing infrastructure; it's about building expert systems that can manage themselves. I use tools like [Gemini](https://geminicli.com) and [Claude](https://claude.com/product/claude-code) to build autonomous agents that can reason, code, and solve complex problems.
 
-My current focus is on advancing my knowledge of [Kubernetes](https://kubernetes.io/). To that end I have become a contributor to the [Kubernetes community](https://www.kubernetes.dev/), participating in discussions and aiming to enable the smooth running of the infrastructure as part of [SIG K8s-Infra](https://github.com/kubernetes/community/tree/master/sig-k8s-infra). It is my goal to become a Kubernetes expert by gaining the knowledge needed to achieve all certifications required for the [Kubestronaut program](https://www.cncf.io/training/kubestronaut/).
+**The Intersection: SRE Meets AI**
 
-I’m active on [GitHub](https://github.com/gawbul) and aspire to become a tech blogger on [this site](https://www.gawbul.io/). You can also find me on [Google Scholar](https://scholar.google.com/citations?user=KD8T2ZwAAAAJ&hl=en).
+I still care deeply about reliability — you can't run stochastic models on fragile systems. My work sits at the intersection of [AI](https://en.wikipedia.org/wiki/Artificial_intelligence) and SRE:
 
-I enjoy learning about fun technical challenges and collaborating with great teams. [Reach out](mailto:gawbul@gmail.com) if you want to find a way to work together!
+1. Architecting Systems: Building the secure, scalable [distributed systems](https://en.wikipedia.org/wiki/Distributed_computing) required to run modern AI.
+
+2. Engineering Agents: Using Polyglot engineering (Python, Go, Rust) to create digital agents that handle the toil.
+
+**Back to the Source: Genomics & Medicine**
+
+My background is in [Bioinformatics](https://en.wikipedia.org/wiki/Bioinformatics) and [Molecular Evolution](https://en.wikipedia.org/wiki/Molecular_evolution) (Universities of [Hull](https://www.hull.ac.uk/) and [York](https://www.york.ac.uk/)). I am passionate about closing the loop between my past and present by applying these autonomous agents to [Genomics](https://en.wikipedia.org/wiki/Genomics) and [Personalised Medicine](https://en.wikipedia.org/wiki/Personalized_medicine).
+
+I want to build systems that don't just process biological data, but understand it.
+
+**Off Script**
+
+When I'm not arguing with an LLM or fixing a production outage, I'm a Dad, a husband, and a mental health advocate. I also enjoy boxing, films, and gaming.
+
+Reach out if you want to talk about the intersection of biological evolution and digital intelligence.
