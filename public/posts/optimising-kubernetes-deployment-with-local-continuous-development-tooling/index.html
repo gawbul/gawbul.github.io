@@ -7,20 +7,20 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        
+
         <meta name="description" content="Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader.">
-        
+
         <meta name="keywords" content="gawbul,kubernetes,devops,sre,bioinformatics,genomics,evolution">
 
         <title>
-              Dr Stephen P. Moss - Optimising Kubernetes deployment with local continuous development tooling 
+              Dr Stephen P. Moss - Optimising Kubernetes deployment with local continuous development tooling
         </title>
 
-        <meta name="generator" content="Hugo 0.154.5">
+        <meta name="generator" content="Hugo 0.157.0">
 
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-        
+
 
         <link rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Slab:wght@400;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700" />
@@ -45,23 +45,23 @@
 </header>
 
 <section id="category-pane" class="meta">
-  
+
   <div class="d-flex flex-column flex-md-row justify-content-between">
     <h6 class="text-start meta">
        PUBLISHED ON 2025-06-22 15:33:27
-      
+
       / 8 MIN READ
-      
+
     </h6>
   </div>
-  
+
 </section>
 
 <section id="content-pane">
   <div class="text-justify content">
-    
+
     <nav id="TableOfContents"></nav>
-    
+
     <p><img src="https://www.gawbul.io/skaffold-terminal.png" alt="Skaffold Terminal" title="Skaffold running in a control loop watching for changes"></p>
 <p>Something I’ve noticed through my work with Kubernetes is that it can be challenging to test things properly locally before deploying.</p>
 <p>There are plenty of tools for testing things in continuous integration pipelines and as part of continuous deployment, but there aren’t many tools for increasing your confidence that your Kubernetes-based application (code and associated Helm charts, for example), will deploy properly without issues the first time.</p>
@@ -73,11 +73,11 @@
 <p>Skaffold is a tool from <a href="https://about.google/">Google</a> designed to enable “Easy and Repeatable Kubernetes Development”. It’s available open-source <a href="https://github.com/GoogleContainerTools/skaffold">on GitHub</a> and has extensive <a href="https://skaffold.dev/docs/">documentation</a> available on its main website.</p>
 <p>I decided to use Skaffold for my local Kubernetes development because it’s open-source, it’s lightweight, it’s easy to learn, it has the backing of Google who are essentially the creators of Kubernetes, it allows for running different types of tests against containers, and it enables continuous development by watching changes to your source-code in real-time and automatically building and deploying to your cluster.</p>
 <p>You can install it using one of its <a href="https://skaffold.dev/docs/install/#managed-ide">IDE plugins</a> or as a <a href="https://skaffold.dev/docs/install/#standalone-binary">standalone binary</a>. I decided to install using the <a href="https://skaffold.dev/docs/install/#homebrew">Homebrew package</a> as I am running <a href="https://www.apple.com/uk/macos/macos-sequoia/">macOS</a>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install skaffold
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install skaffold
 </span></span></code></pre></div><p>Once installed, you can browse to your application repository (such as this <a href="https://github.com/gawbul/kubernetes-example-application">Kubernetes Example Application</a>) and initialise the Skaffold config using a simple:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold init
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold init
 </span></span></code></pre></div><p>As long as you have the basics set up, such as your source code, Helm charts, and Dockerfile, it should create a simple <code>skaffold.yaml</code> configuration file, much like the following (for builder I selected <code>Docker</code> and for buildpacks I selected <code>go.mod</code>):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application</span>
@@ -96,7 +96,7 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.0.1</span>
 </span></span></code></pre></div><p>This would allow you to build an image for the relevant application based on the Dockerfile and deploy it using Helm to your Kubernetes cluster.</p>
 <p>You could very simply run the following to build the image and deploy to your cluster:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold run
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold run
 </span></span></code></pre></div><p>However, there are a few things that aren’t considered here.</p>
 <ol>
 <li>The image references GitHub Container Registry. We need to push the image to the registry and also set up <code>imagePullSecrets</code> to ensure the cluster can pull the image down (otherwise we’ll end up with <code>ImagePullBackOff</code>).</li>
@@ -105,7 +105,7 @@
 </ol>
 <p>This post won’t go into setting up your cluster to access GitHub Container Registry, although see the README <a href="https://github.com/gawbul/kubernetes-example-application/blob/main/README.md">here</a> for a guide on how to set up <a href="https://kind.sigs.k8s.io/">KinD</a> locally with all the relevant configuration.</p>
 <p>A more appropriate <code>skaffold.yaml</code> to use once you have everything set up would be the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-example-application</span>
@@ -156,18 +156,18 @@
 </ol>
 <p>Now, when we do a <code>skaffold run</code> it builds the image locally (if it doesn’t already exist) and pushes the image to GitHub Container Registry, it then runs the container structure tests to ensure the image was built correctly, before finally deploying the application to the Kubernetes cluster using Helm.</p>
 <p>If you followed the guide above using a clone of the repository, you should then be able to do the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k https://kubernetes.localhost:8443/kubernetes-example-application
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k https://kubernetes.localhost:8443/kubernetes-example-application
 </span></span></code></pre></div><p>Which returns the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Hello from Kubernetes!%
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Hello from Kubernetes!%
 </span></span></code></pre></div><p>You can then verify the deployment using:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold verify
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold verify
 </span></span></code></pre></div><p>Which should return the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Loading images into kind cluster nodes...  
-</span></span><span style="display:flex;"><span>Images loaded in 41ns  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Loading images into kind cluster nodes...
+</span></span><span style="display:flex;"><span>Images loaded in 41ns
 </span></span><span style="display:flex;"><span>[kubernetes-example-application-health-check] Hello from Kubernetes!
 </span></span></code></pre></div><p>The steps above have allowed you to confirm that your image has been built correctly and is structured in the manner you expect, as well as verifying that it has been deployed and is running correctly in your Kubernetes cluster.</p>
 <p>The test step can test various components of your image (see the <a href="https://github.com/GoogleContainerTools/container-structure-test/blob/main/README.md">README</a> for more details of the different tests), but in this case is just using base file existence and metadata tests:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">schemaVersion</span>: <span style="color:#ae81ff">2.0.0</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">schemaVersion</span>: <span style="color:#ae81ff">2.0.0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">fileExistenceTests</span>:
 </span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;app directory should not exist&#39;</span>
@@ -193,12 +193,12 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">workdir</span>: <span style="color:#e6db74">&#39;/&#39;</span>
 </span></span></code></pre></div><p>This checks that an <code>/app</code> directory doesn’t exist (this should only exist in the build step), checks that a <code>/main</code> binary exists, and checks various elements of the image metadata, including the labels and exposed ports. All very useful checks for ensuring your image is structured as it should be.</p>
 <p>To remove the resources from your local cluster once you’re happy, you just need to do the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold delete
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold delete
 </span></span></code></pre></div><p>To build and test a standalone image, you can do the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold build --filename<span style="color:#f92672">=</span>skaffold.yaml --file-output<span style="color:#f92672">=</span>build.json  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold build --filename<span style="color:#f92672">=</span>skaffold.yaml --file-output<span style="color:#f92672">=</span>build.json
 </span></span><span style="display:flex;"><span>skaffold test --build-artifacts<span style="color:#f92672">=</span>build.json
 </span></span></code></pre></div><p>The <code>build.json</code> is structured as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;builds&#34;</span>: [
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;imageName&#34;</span>: <span style="color:#e6db74">&#34;ghcr.io/gawbul/kubernetes-example-application&#34;</span>,
@@ -208,13 +208,13 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>One of the most powerful pieces of functionality of Skaffold, however, is the ability to test changes to your code and Helm charts in real-time.</p>
 <p>You can run the following command:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold dev
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>skaffold dev
 </span></span></code></pre></div><p>This does the same as <code>skaffold run</code> but adds a control loop at the end, which watches your application for changes. You can then update the source code for your application or the associated Helm charts, and it automatically rebuilds the image, and/or redeploys the Helm chart as appropriate. Once you’re finished, you just hit Ctrl+C and it automatically cleans up for you.</p>
 <p>This is valuable when you&rsquo;re trying to iterate on components of your application to debug issues with your code or deployment, for example.</p>
 <p><a href="https://www.loom.com/share/5547f88ac64c4340a5a4ef75eb2ccbf1"><img src="https://cdn.loom.com/sessions/thumbnails/5547f88ac64c4340a5a4ef75eb2ccbf1-26b880030fd1be3e-full-play.gif#t=0.1" alt="Demonstrating Scaffold Dev" title="Demonstrating Skaffold Dev"></a></p>
 <p>Skaffold isn’t just limited to single repository deployments either. If you have a selection of microservices that integrate together, you can use Skaffold to test your changes in one application alongside the others.</p>
 <p>For example, you might have the following <code>skaffold-all.yaml</code> file:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">skaffold/v4beta13</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">kubernetes-micro-services</span>
@@ -299,13 +299,13 @@
 </section>
 
 <section id="tag-pane" class="meta">
-  
+
   <div class="d-flex flex-column flex-md-row justify-content-between">
     <h6 class="text-end meta">
-      
+
     </h6>
   </div>
-  
+
 </section>
 
 
@@ -313,9 +313,9 @@
 <div id="disqus_thread"></div>
 <script>
     window.disqus_config = function () {
-    
-    
-    
+
+
+
     };
     (function() {
         if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
@@ -334,47 +334,47 @@
 
 
 <section id="menu-pane" class="menu text-center">
-  
+
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
-      
-      
+
+
       <li class="menu-item">
         <a class="menu-item" href="https://www.gawbul.io/posts/building-a-four-node-raspberry-pi-5-cluster/">&lt; prev</a>
       </li>
-      
+
 
       <li class="menu-item">
-        
+
         <span class="menu-item">&nbsp;|&nbsp;</span>
-        
+
         <a class="menu-item" href="https://www.gawbul.io/posts">posts</a>
-        
+
       </li>
 
-      
-      
+
+
     </ul>
   </nav>
-  
+
   <h4 class="text-center mt-3"><a class="menu-item" href="https://www.gawbul.io/">home</a></h4>
 </section>
 
 <footer class="text-center footer">
   <hr />
-  
+
   <h6 class="text-center copyright">This work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></h6>
-  
+
   <h6 class="text-center powered"><a href="https://gohugo.io/">Hugo</a> <a
       href="https://github.com/shenoydotme/hugo-goa">Goa</a> by <a href="https://shenoy.me">shenoydotme</a> and <a
       href="https://incirclemedia.com">Incircle Media</a></h6>
-  
-  
+
+
   <h6>
     <a href="https://www.gawbul.io/index.xml" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a>
   </h6>
-  
-  
+
+
 
 </footer>
 </div>
@@ -409,4 +409,3 @@
 </body>
 
 </html>
-

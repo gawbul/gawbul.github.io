@@ -166,8 +166,8 @@ skaffold verify
 Which should return the following:
 
 ```text
-Loading images into kind cluster nodes...  
-Images loaded in 41ns  
+Loading images into kind cluster nodes...
+Images loaded in 41ns
 [kubernetes-example-application-health-check] Hello from Kubernetes!
 ```
 
@@ -213,7 +213,7 @@ skaffold delete
 To build and test a standalone image, you can do the following:
 
 ```bash
-skaffold build --filename=skaffold.yaml --file-output=build.json  
+skaffold build --filename=skaffold.yaml --file-output=build.json
 skaffold test --build-artifacts=build.json
 ```
 

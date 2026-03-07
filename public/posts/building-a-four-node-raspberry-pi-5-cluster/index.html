@@ -7,20 +7,20 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-        
+
         <meta name="description" content="Dr Stephen P. Moss - Scientist, technologist, engineer, and technical leader.">
-        
+
         <meta name="keywords" content="gawbul,kubernetes,devops,sre,bioinformatics,genomics,evolution">
 
         <title>
-              Dr Stephen P. Moss - Building a four-node Raspberry Pi 5 cluster 
+              Dr Stephen P. Moss - Building a four-node Raspberry Pi 5 cluster
         </title>
 
-        <meta name="generator" content="Hugo 0.154.5">
+        <meta name="generator" content="Hugo 0.157.0">
 
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-        
+
 
         <link rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Roboto+Slab:wght@400;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700" />
@@ -45,23 +45,23 @@
 </header>
 
 <section id="category-pane" class="meta">
-  
+
   <div class="d-flex flex-column flex-md-row justify-content-between">
     <h6 class="text-start meta">
        PUBLISHED ON 2025-03-22 12:37:21
-      
+
       / 23 MIN READ
-      
+
     </h6>
   </div>
-  
+
 </section>
 
 <section id="content-pane">
   <div class="text-justify content">
-    
+
     <nav id="TableOfContents"></nav>
-    
+
     <p>I’ve been doing a lot of work with <a href="https://kubernetes.io">Kubernetes</a> recently.</p>
 <p>My day job is as a <a href="https://sre.google/">Site Reliability Engineer</a>, and I spend my spare time as a Research Consultant, primarily in <a href="https://en.wikipedia.org/wiki/Bioinformatics">Bioinformatics</a> and <a href="https://en.wikipedia.org/wiki/Computational_genomics">Computational Genomics</a>. Both of these disciplines require an understanding of <a href="https://en.wikipedia.org/wiki/Distributed_computing">distributed</a> and <a href="https://en.wikipedia.org/wiki/High-performance_computing">high-performance</a> computing. Kubernetes is particularly relevant to <a href="https://en.wikipedia.org/wiki/Scalability">scaling</a> various workloads.</p>
 <p>As part of my learning and development, I decided to build a home lab that would allow me to test various tools and concepts in a safe environment without requiring me to regularly pay for a <a href="https://cloud.google.com/kubernetes-engine?hl=en">Google Kubernetes Engine</a> cluster in <a href="https://cloud.google.com/gcp">Google Cloud Platform</a> (I know there are other Cloud providers, but I prefer Google).</p>
@@ -116,38 +116,38 @@
 <p><img src="https://www.gawbul.io/ups.png" alt="image" title="UPS with the battery still disconnected"></p>
 <p>Once I got downstairs, I plugged the switch into my router and connected the Anker chargers up to the Pis one by one. It was satisfying to see the power lights come on on the Pis.</p>
 <p>I went upstairs to my laptop and was able to ascertain the IPs of each Pi by checking my router’s client list, however, the ethernet ports didn’t show up. Once I had the IPs for all four Pis, I edited my SSH config on my laptop to include the name of each of the Pis as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Host eniac-node1  
-</span></span><span style="display:flex;"><span>  Hostname 192.168.50.129  
-</span></span><span style="display:flex;"><span>  Port 22  
-</span></span><span style="display:flex;"><span>  User gawbul  
-</span></span><span style="display:flex;"><span>  IdentityFile /Users/gawbul/.ssh/id_rsa  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Host eniac-node1
+</span></span><span style="display:flex;"><span>  Hostname 192.168.50.129
+</span></span><span style="display:flex;"><span>  Port 22
+</span></span><span style="display:flex;"><span>  User gawbul
+</span></span><span style="display:flex;"><span>  IdentityFile /Users/gawbul/.ssh/id_rsa
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host eniac-node2  
-</span></span><span style="display:flex;"><span>  Hostname 192.168.50.31  
-</span></span><span style="display:flex;"><span>  Port 22  
-</span></span><span style="display:flex;"><span>  User gawbul  
-</span></span><span style="display:flex;"><span>  IdentityFile /Users/gawbul/.ssh/id_rsa  
+</span></span><span style="display:flex;"><span>Host eniac-node2
+</span></span><span style="display:flex;"><span>  Hostname 192.168.50.31
+</span></span><span style="display:flex;"><span>  Port 22
+</span></span><span style="display:flex;"><span>  User gawbul
+</span></span><span style="display:flex;"><span>  IdentityFile /Users/gawbul/.ssh/id_rsa
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host eniac-node3  
-</span></span><span style="display:flex;"><span>  Hostname 192.168.50.167  
-</span></span><span style="display:flex;"><span>  Port 22  
-</span></span><span style="display:flex;"><span>  User gawbul  
-</span></span><span style="display:flex;"><span>  IdentityFile /Users/gawbul/.ssh/id_rsa  
+</span></span><span style="display:flex;"><span>Host eniac-node3
+</span></span><span style="display:flex;"><span>  Hostname 192.168.50.167
+</span></span><span style="display:flex;"><span>  Port 22
+</span></span><span style="display:flex;"><span>  User gawbul
+</span></span><span style="display:flex;"><span>  IdentityFile /Users/gawbul/.ssh/id_rsa
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host eniac-node4  
-</span></span><span style="display:flex;"><span>  Hostname 192.168.50.111  
-</span></span><span style="display:flex;"><span>  Port 22  
-</span></span><span style="display:flex;"><span>  User gawbul  
+</span></span><span style="display:flex;"><span>Host eniac-node4
+</span></span><span style="display:flex;"><span>  Hostname 192.168.50.111
+</span></span><span style="display:flex;"><span>  Port 22
+</span></span><span style="display:flex;"><span>  User gawbul
 </span></span><span style="display:flex;"><span>  IdentityFile /Users/gawbul/.ssh/id_rsa
 </span></span></code></pre></div><p>I connected to <code>eniac-node1</code> over SSH using <code>ssh eniac-node1</code> and checked the status of the ethernet interface using the following commands:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo su -
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo su -
 </span></span><span style="display:flex;"><span>ip link show
 </span></span><span style="display:flex;"><span>ip address show eth0
 </span></span><span style="display:flex;"><span>ethtool eth0
 </span></span><span style="display:flex;"><span>lshw -class network
 </span></span></code></pre></div><p>This showed that the link state was registered as <code>DOWN</code>, hence the IPs not showing up on my router.</p>
 <p>I created a <a href="https://netplan.io/">netplan</a> configuration file at <code>/etc/netplan/99-ethernet-config.yaml</code> with the following contents:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">network</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">network</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">renderer</span>: <span style="color:#ae81ff">networkd</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">ethernets</span>:
@@ -155,7 +155,7 @@
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">dhcp4</span>: <span style="color:#66d9ef">true</span>
 </span></span></code></pre></div><p>I chose to keep the configuration to DHCP initially. Later, I’ll update it to a static IP.</p>
 <p>I then ran the following commands:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chmod <span style="color:#ae81ff">600</span> /etc/netplan/99-ethernet-config.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chmod <span style="color:#ae81ff">600</span> /etc/netplan/99-ethernet-config.yaml
 </span></span><span style="display:flex;"><span>sudo netplan apply
 </span></span></code></pre></div><p>This caused the SSH session to hang, and I had to quit and restart the terminal session.</p>
 <p>I SSH’d back into <code>eniac-node1</code> and rebooted using <code>sudo reboot</code>.</p>
@@ -164,12 +164,12 @@
 <p>Running <code>ip link show wlan0</code> showed that the state was now down.</p>
 <p>One thing I noticed while trying out various commands on the Pi was that my terminal wasn’t supported, so I had to copy the <a href="https://man7.org/linux/man-pages/man5/terminfo.5.html">terminfo</a> to each of the nodes. I use <a href="https://ghostty.org/">Ghostty</a>, and this <a href="https://ghostty.org/docs/help/terminfo">is a known issue</a> at present.</p>
 <p>I updated the terminfo as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>infocmp -x | ssh eniac-node1 -- tic -x -  
-</span></span><span style="display:flex;"><span>infocmp -x | ssh eniac-node2 -- tic -x -  
-</span></span><span style="display:flex;"><span>infocmp -x | ssh eniac-node3 -- tic -x -  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>infocmp -x | ssh eniac-node1 -- tic -x -
+</span></span><span style="display:flex;"><span>infocmp -x | ssh eniac-node2 -- tic -x -
+</span></span><span style="display:flex;"><span>infocmp -x | ssh eniac-node3 -- tic -x -
 </span></span><span style="display:flex;"><span>infocmp -x | ssh eniac-node4 -- tic -x -
 </span></span></code></pre></div><p>I also noticed the following warning when connecting to each of the Pis:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>This power supply is not capable of supplying 5A; power to peripherals
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>This power supply is not capable of supplying 5A; power to peripherals
 </span></span><span style="display:flex;"><span>will be restricted
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>See man:pemmican-cli<span style="color:#f92672">(</span>1<span style="color:#f92672">)</span> <span style="color:#66d9ef">for</span> information on suppressing this warning,
@@ -177,7 +177,7 @@
 </span></span><span style="display:flex;"><span>Raspberry Pi <span style="color:#ae81ff">5</span> power supply
 </span></span></code></pre></div><p>This was confusing, as the specs for the power supplies stated they were <a href="https://www.anker.com/uk/products/b2672">capable of up to 5A at 100W</a>.</p>
 <p>I did some reading <a href="https://forums.raspberrypi.com/viewtopic.php?t=359213">here</a> and tried adding the following line to the end of <code>/boot/firmware/config.txt</code> followed by a reboot, but it didn’t make a difference, so I reverted.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>usb_max_current_enable=1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>usb_max_current_enable=1
 </span></span></code></pre></div><p>I decided to bite the bullet and initiate a return of the Anker power supplies and order the official <a href="https://thepihut.com/products/raspberry-pi-27w-usb-c-power-supply?variant=42531604103363">Raspberry Pi 27W USB-C Power Supply</a> in black instead. This saved me some money and seems to be the recommended power supply for Pis.</p>
 <p>I then repeated the above steps to enable the ethernet interface and disable the Wi-Fi on all the nodes, rebooting each in turn.</p>
 <p>All the IPs showed up on reboot, and the Pis were ready.</p>
@@ -189,7 +189,7 @@
 <p><a href="https://www.youtube.com/watch?v=WK4iVeLQOHY"><img src="https://www.gawbul.io/cluster-youtube-thumbnail.png" alt="Building a four-node Raspberry Pi 5 Cluster" title="Building a four-node Raspberry Pi 5 Cluster"></a></p>
 <p>For the next stage, I created a repository on GitHub called <a href="https://github.com/gawbul/gawbul-homelab">gawbul-homelab</a>, which I would use moving forward to house the configuration and set up scripts for my cluster.</p>
 <p>I installed <a href="https://mise.jdx.dev/">mise</a> and created a simple <code>mise.toml</code> file to begin with, with the following task:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">ssh-command-run</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">ssh-command-run</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Run a command over SSH on the remote nodes&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span> = <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">for node in $HOMELAB_NODES; do
@@ -197,14 +197,14 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">done
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 </span></span></code></pre></div><p>This made use of the following environment configuration:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">env</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">env</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">HOMELAB_NODES</span> = <span style="color:#e6db74">&#34;eniac-node1 eniac-node2 eniac-node3 eniac-node4&#34;</span>
 </span></span></code></pre></div><p>This allowed me to run the following command across all nodes in sequence to update to the latest version of all packages:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mise run ssh-command-run <span style="color:#e6db74">&#39;sudo apt update &amp;&amp; sudo apt -y dist-upgrade&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mise run ssh-command-run <span style="color:#e6db74">&#39;sudo apt update &amp;&amp; sudo apt -y dist-upgrade&#39;</span>
 </span></span></code></pre></div><p>Using the mise task was great for running commands over SSH across all the Pis, but it wasn’t what I wanted to do from a best practice perspective, as it meant a lot of manual setup. I wanted to create something I could use to set up and manage the software and configuration on all of the Pis, which is where a <a href="https://www.redhat.com/en/topics/automation/what-is-configuration-management">configuration management</a> utility comes in.</p>
 <p>I decided on <a href="https://www.redhat.com/en/ansible-collaborative">Ansible</a> as the configuration management tool for my setup, not least because I am more versed in Python. I have used <a href="https://www.chef.io/">Chef</a> and <a href="https://saltproject.io/">SaltStack</a> in the past and am aware of <a href="https://www.puppet.com/">Puppet</a>, but I thought Ansible would suit me best here.</p>
 <p>I created a list of tools I wanted to install as a base in my mise file, as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tools</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tools</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">ansible</span> = <span style="color:#e6db74">&#34;latest&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">container-structure-test</span> = <span style="color:#e6db74">&#34;latest&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">cosign</span> = <span style="color:#e6db74">&#34;latest&#34;</span>
@@ -224,27 +224,27 @@
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">usage</span> = <span style="color:#e6db74">&#34;latest&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">yq</span> = <span style="color:#e6db74">&#34;latest&#34;</span>
 </span></span></code></pre></div><p>I then enabled experimental mode in mise:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | tee -a ~/.config/mise/config.toml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | tee -a ~/.config/mise/config.toml
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[settings]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">experimental = true
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><p>I ran the following to setup and install all the tools:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>touch mise.lock
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>touch mise.lock
 </span></span><span style="display:flex;"><span>mise install
 </span></span></code></pre></div><p>Creating the lock file allows me to maintain a list of versions and checksums for each of the tools in my <code>mise.toml</code> file.</p>
 <p>I then created a playbook to set up and configure all the nodes. This contained a common configuration to install a common state across all nodes and then plays specific to the <a href="https://kubernetes.io/docs/concepts/overview/components/#control-plane-components">control plane</a> (<code>eniac-node1</code>) and <a href="https://kubernetes.io/docs/concepts/overview/components/#node-components">worker nodes</a> (<code>eniac-node1</code> through <code>eniac-node4</code>).</p>
 <p>I created the following mise task to run the playbook against all hosts:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">ansible-playbook-run</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">ansible-playbook-run</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Run the Ansible playbooks using the hosts file&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span> = <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ansible-playbook -i hosts site.yaml
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 </span></span></code></pre></div><p>I then iterated on the code until things were set up at a base level on each of the nodes using the <code>common</code> role, running the Ansible plays with the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mise run ansible-playbook-run
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mise run ansible-playbook-run
 </span></span></code></pre></div><p>Once the <code>common</code> role was set up, I then moved to configure the Kubernetes nodes using <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/">the following guide</a> (using the <em>Without a package manager</em> option). I also used <a href="https://en.wikipedia.org/wiki/Kelsey_Hightower">Kelsey Hightower</a>’s <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way/tree/master">Kubernetes the Hard Way</a> as prerequisite knowledge and to tweak some things alongside.</p>
 <p>For <code>containerd</code>I needed the following <a href="https://github.com/containerd/containerd/blob/main/docs/getting-started.md#installing-containerd">information</a> as well as this <a href="https://kubernetes.io/docs/setup/production-environment/container-runtimes/">guide</a> to help configure the <a href="https://systemd.io/">systemd</a> <a href="https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v1/cgroups.html">cgroup</a> driver.</p>
 <p>The first task, however, was to set up the SSL certificate configuration for the nodes using the following CA configuration file:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">req</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">req</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">distinguished_name</span> = <span style="color:#a6e22e">req_distinguished_name</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">prompt</span>             = <span style="color:#a6e22e">no</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">x509_extensions</span>    = <span style="color:#a6e22e">ca_x509_extensions</span>
@@ -555,7 +555,7 @@
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">nsComment</span>            = <span style="color:#e6db74">&#34;Admin Client Certificate&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">subjectKeyIdentifier</span> = <span style="color:#a6e22e">hash</span>
 </span></span></code></pre></div><p>I also created the following mise tasks to generate the CA certificate and client and server certificates:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">ssl-ca-certificate-generate</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">ssl-ca-certificate-generate</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Generate the SSL CA certificate&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span> = <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">openssl genrsa -out certs/ca.key 4096
@@ -586,7 +586,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 </span></span></code></pre></div><p>I made sure to add a <code>certs</code> entry to the <code>.gitignore</code> file to ensure I don’t commit these to version control.</p>
 <p>I then generated the <a href="https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/">kubeconfig</a> files with the following mise tasks:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">kubeconfig-kubelet-generate</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">kubeconfig-kubelet-generate</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Generate the kubelet kubeconfig files&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span> = <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">for node in ${K8S_WORKER_NODES[*]}; do
@@ -719,7 +719,7 @@
 </span></span><span style="display:flex;"><span>]
 </span></span></code></pre></div><p>I generated all of these at once by running <code>mise run kubeconfig-generate</code> and again added the <code>kubeconfig</code> directory to the <code>.gitignore</code> to ensure the certificates weren’t added to version control.</p>
 <p>To encrypt data at rest I next generated an <a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/">EncryptionConfiguration</a> file using the following mise task:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">encryption-config-generate</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">encryption-config-generate</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Generate the data encryption config&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span> = <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">export ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
@@ -727,7 +727,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 </span></span></code></pre></div><p>Again, adding the resulting <code>encryption-config.yaml</code> file to <code>.gitignore</code> to avoid exposing the secret.</p>
 <p>I decided to set the <code>eth0</code> IPs as static before moving forward any further and so updated the <code>99-ethernet-config.yaml</code> to a template for each of the nodes with the following format (with differing routes for each node) along with some configuration on my router:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">network</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">network</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">renderer</span>: <span style="color:#ae81ff">networkd</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">ethernets</span>:
@@ -750,7 +750,7 @@
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">nameservers</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">addresses</span>: [{{ <span style="color:#ae81ff">router_gateway_ip }}]</span>
 </span></span></code></pre></div><p>The dict for the above template was constructed as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">nodes</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">nodes</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">eniac-node1</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">node_info</span>:
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">eniac-node1</span>
@@ -778,7 +778,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">router_gateway_ip</span>: <span style="color:#e6db74">&#34;192.168.50.1&#34;</span>
 </span></span></code></pre></div><p>I created the following mise task to update <code>/etc/hosts</code> and allow connecting to the nodes locally:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">etc-hosts-set</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">etc-hosts-set</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Set the hostnames in /etc/hosts&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span> = <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">sudo sed -E -i &#39;&#39; &#39;/^.*[a-z.-]+kubernetes.local$/d&#39; /etc/hosts
@@ -789,12 +789,12 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">done
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
 </span></span></code></pre></div><p>With the following environment variables:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">env</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">env</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">HOMELAB_NODES</span> = <span style="color:#e6db74">&#34;eniac-node1 eniac-node2 eniac-node3 eniac-node4&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">HOMELAB_IPS</span> = <span style="color:#e6db74">&#34;192.168.50.4 192.168.50.5 192.168.50.6 192.168.50.7&#34;</span>
 </span></span></code></pre></div><p>I continued with bootstrapping <a href="https://etcd.io/">etcd</a>, the Kubernetes control plane, and worker nodes, setting up everything using Ansible along with a sprinkling of helper mise tasks. I templated things where relevant, adding variables to Ansible’s <code>global_vars</code> to make things more configurable in the future and relying less on static values.</p>
 <p>Once I ran through with <code>mise run ansible-playbook-run</code> again, I was able to connect to the control plane from my MacBook Pro as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k --cacert certs/ca.crt https://eniac-node1.kubernetes.local:6443/version
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -k --cacert certs/ca.crt https://eniac-node1.kubernetes.local:6443/version
 </span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;major&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;minor&#34;</span>: <span style="color:#e6db74">&#34;32&#34;</span>,
@@ -806,21 +806,21 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;compiler&#34;</span>: <span style="color:#e6db74">&#34;gc&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;platform&#34;</span>: <span style="color:#e6db74">&#34;linux/arm64&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>%
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl cluster-info --kubeconfig kubeconfig/admin.kubeconfig
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl cluster-info --kubeconfig kubeconfig/admin.kubeconfig
 </span></span><span style="display:flex;"><span>Kubernetes control plane is running at https://eniac-node1.kubernetes.local:6443
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>To further debug and diagnose cluster problems, use <span style="color:#e6db74">&#39;kubectl cluster-info dump&#39;</span>.
 </span></span></code></pre></div><p>I hit <a href="https://github.com/canonical/microk8s/issues/4462">an issue</a> with starting <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/">kube-proxy</a> which caused the worker nodes to fail to join the cluster, however, due to a <a href="https://tldp.org/LDP/lkmpg/2.6/html/x40.html">kernel module</a> not being loaded. I added <code>nf_conntrack</code> to <code>/etc/modules-load.d/nf-conntrack.conf</code> and ran <code>sudo modprobe -a nf_conntrack</code>. This allowed the kube-proxy to start.</p>
 <p>I also had <a href="https://github.com/kubernetes/kubernetes/issues/47695">an issue</a> with the worker nodes connecting to the <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/">kube-apiserver</a>. However, this turned out to be a typo with the <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/">kubelet</a> configuration.</p>
 <p>I finished setting up the worker nodes, and was able to use <a href="https://kubernetes.io/docs/tasks/tools/#kubectl">kubectl</a> to get the node information:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get nodes --kubeconfig kubeconfig/admin.kubeconfig -o wide
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get nodes --kubeconfig kubeconfig/admin.kubeconfig -o wide
 </span></span><span style="display:flex;"><span>NAME          STATUS   ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
 </span></span><span style="display:flex;"><span>eniac-node1   Ready    control-plane   9h    v1.32.2   192.168.50.4   &lt;none&gt;        Ubuntu 24.04.2 LTS   6.8.0-1020-raspi   containerd://2.0.3
 </span></span><span style="display:flex;"><span>eniac-node2   Ready    worker          9h    v1.32.2   192.168.50.5   &lt;none&gt;        Ubuntu 24.04.2 LTS   6.8.0-1020-raspi   containerd://2.0.3
 </span></span><span style="display:flex;"><span>eniac-node3   Ready    worker          9h    v1.32.2   192.168.50.6   &lt;none&gt;        Ubuntu 24.04.2 LTS   6.8.0-1020-raspi   containerd://2.0.3
 </span></span><span style="display:flex;"><span>eniac-node4   Ready    worker          9h    v1.32.2   192.168.50.7   &lt;none&gt;        Ubuntu 24.04.2 LTS   6.8.0-1020-raspi   containerd://2.0.3
 </span></span></code></pre></div><p>I then created my local kube config file by amending the previous mise task with the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">kubeconfig-local-generate</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">tasks</span>.<span style="color:#a6e22e">kubeconfig-local-generate</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">description</span> = <span style="color:#e6db74">&#34;Generate the local kubeconfig file&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">run</span> = <span style="color:#e6db74">&#34;&#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  kubectl config set-cluster ${K8S_CLUSTER_NAME} \
@@ -860,17 +860,17 @@
 <p>When configuring CoreDNS, there seemed to be some issues with the nodes speaking to one another to resolve DNS. Some investigations highlighted the requirement to load the <code>overlay</code> and <code>br_netfilter</code> kernel modules.</p>
 <p>I created a <code>/etc/modules-load.d/containerd.conf</code> file with the modules listed and also ran <code>sudo modprobe -a overlay br_netfilter</code>.</p>
 <p>Additionally, I needed to add the following to <code>/etc/sysctl.d/kubernetes.conf</code> and run <code>sudo sysctl --system</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>net.ipv4.ip_forward  
-</span></span><span style="display:flex;"><span>net.bridge.bridge-nf-call-iptables  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>net.ipv4.ip_forward
+</span></span><span style="display:flex;"><span>net.bridge.bridge-nf-call-iptables
 </span></span><span style="display:flex;"><span>net.bridge.bridge-nf-call-ip6tables
 </span></span></code></pre></div><p>The <code>local-path-provisioner</code> and <code>csi-driver-nfs</code> installs went fine, and with some configuration on my NAS allowed me to create <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volumes</a> as sub-directories on a mount on my NAS using the relevant <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Storage Class</a>.</p>
 <p>I noticed an issue when viewing the cluster in <a href="https://headlamp.dev/">Headlamp</a> with a Kubernetes <a href="https://kubernetes.io/docs/reference/kubernetes-api/cluster-resources/event-v1/">Event</a> for <code>InvalidDiskCapacity</code> being logged for all the nodes on startup with the following detail <code>invalid capacity 0 on image filesystem</code>.</p>
 <p>After some investigation, it turned out I needed to also add the <code>vm.overcommit_memory=1</code> setting to <code>/etc/sysctl.d/kubernetes.conf</code> and run <code>sudo sysctl --system</code> again.</p>
 <p>I also needed to append the following to <code>/boot/firmware/cmdlint.txt</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 swapaccount=1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1 swapaccount=1
 </span></span></code></pre></div><p>After a reboot, the message disappeared.</p>
 <p>Getting the Metrics Server up and running was a bit of a fiddle. It’s worth making a note of the <a href="https://github.com/kubernetes-sigs/metrics-server?tab=readme-ov-file#requirements">requirements</a> before starting down this journey. I needed to make a couple of tweaks to the Kubelet and API Server configuration, but the main thing that was required was <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/">configuring the aggregation layer</a>. I needed to set up the <a href="https://kubernetes.io/docs/setup/best-practices/certificates/">front proxy certificates</a> and make some changes to the API server service file as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>  --requestheader-client-ca-file=/var/lib/kubernetes/ca.crt \
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>  --requestheader-client-ca-file=/var/lib/kubernetes/ca.crt \
 </span></span><span style="display:flex;"><span>  --requestheader-allowed-names=front-proxy-client \
 </span></span><span style="display:flex;"><span>  --requestheader-extra-headers-prefix=X-Remote-Extra- \
 </span></span><span style="display:flex;"><span>  --requestheader-group-headers=X-Remote-Group \
@@ -908,13 +908,13 @@
 </section>
 
 <section id="tag-pane" class="meta">
-  
+
   <div class="d-flex flex-column flex-md-row justify-content-between">
     <h6 class="text-end meta">
-      
+
     </h6>
   </div>
-  
+
 </section>
 
 
@@ -922,9 +922,9 @@
 <div id="disqus_thread"></div>
 <script>
     window.disqus_config = function () {
-    
-    
-    
+
+
+
     };
     (function() {
         if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
@@ -943,47 +943,47 @@
 
 
 <section id="menu-pane" class="menu text-center">
-  
+
   <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
-      
-      
+
+
 
       <li class="menu-item">
-        
+
         <a class="menu-item" href="https://www.gawbul.io/posts">posts</a>
-        
+
         <span class="menu-item">&nbsp;|&nbsp;</span>
-        
+
       </li>
 
-      
+
       <li class="menu-item">
         <a class="menu-item" href="https://www.gawbul.io/posts/optimising-kubernetes-deployment-with-local-continuous-development-tooling/">next &gt;</a>
       </li>
-      
-      
+
+
     </ul>
   </nav>
-  
+
   <h4 class="text-center mt-3"><a class="menu-item" href="https://www.gawbul.io/">home</a></h4>
 </section>
 
 <footer class="text-center footer">
   <hr />
-  
+
   <h6 class="text-center copyright">This work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></h6>
-  
+
   <h6 class="text-center powered"><a href="https://gohugo.io/">Hugo</a> <a
       href="https://github.com/shenoydotme/hugo-goa">Goa</a> by <a href="https://shenoy.me">shenoydotme</a> and <a
       href="https://incirclemedia.com">Incircle Media</a></h6>
-  
-  
+
+
   <h6>
     <a href="https://www.gawbul.io/index.xml" aria-label="RSS Feed"><i class="fas fa-rss" aria-hidden="true"></i></a>
   </h6>
-  
-  
+
+
 
 </footer>
 </div>
@@ -1018,4 +1018,3 @@
 </body>
 
 </html>
-
