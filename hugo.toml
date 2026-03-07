@@ -12,7 +12,7 @@ theme = "hugo-goa"
 [params]
 author = "Dr Steve Moss"
 intro = "Scientist | Technologist | Engineer | Builder"
-description = "Architecting reliable, autonomous systems for the next generation of AI and Genomics."
+description = "Building reliable, intelligent systems at the intersection of AI, SRE, and genomics."
 authorimage = "profile.png"
 dateformat = "2006-01-02 15:04:05"
 
