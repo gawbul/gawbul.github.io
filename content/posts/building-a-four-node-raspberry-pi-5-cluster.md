@@ -122,28 +122,28 @@ Once I got downstairs, I plugged the switch into my router and connected the Ank
 I went upstairs to my laptop and was able to ascertain the IPs of each Pi by checking my router’s client list, however, the ethernet ports didn’t show up. Once I had the IPs for all four Pis, I edited my SSH config on my laptop to include the name of each of the Pis as follows:
 
 ```text
-Host eniac-node1  
-  Hostname 192.168.50.129  
-  Port 22  
-  User gawbul  
-  IdentityFile /Users/gawbul/.ssh/id_rsa  
+Host eniac-node1
+  Hostname 192.168.50.129
+  Port 22
+  User gawbul
+  IdentityFile /Users/gawbul/.ssh/id_rsa
 
-Host eniac-node2  
-  Hostname 192.168.50.31  
-  Port 22  
-  User gawbul  
-  IdentityFile /Users/gawbul/.ssh/id_rsa  
+Host eniac-node2
+  Hostname 192.168.50.31
+  Port 22
+  User gawbul
+  IdentityFile /Users/gawbul/.ssh/id_rsa
 
-Host eniac-node3  
-  Hostname 192.168.50.167  
-  Port 22  
-  User gawbul  
-  IdentityFile /Users/gawbul/.ssh/id_rsa  
+Host eniac-node3
+  Hostname 192.168.50.167
+  Port 22
+  User gawbul
+  IdentityFile /Users/gawbul/.ssh/id_rsa
 
-Host eniac-node4  
-  Hostname 192.168.50.111  
-  Port 22  
-  User gawbul  
+Host eniac-node4
+  Hostname 192.168.50.111
+  Port 22
+  User gawbul
   IdentityFile /Users/gawbul/.ssh/id_rsa
 ```
 
@@ -194,9 +194,9 @@ One thing I noticed while trying out various commands on the Pi was that my term
 I updated the terminfo as follows:
 
 ```bash
-infocmp -x | ssh eniac-node1 -- tic -x -  
-infocmp -x | ssh eniac-node2 -- tic -x -  
-infocmp -x | ssh eniac-node3 -- tic -x -  
+infocmp -x | ssh eniac-node1 -- tic -x -
+infocmp -x | ssh eniac-node2 -- tic -x -
+infocmp -x | ssh eniac-node3 -- tic -x -
 infocmp -x | ssh eniac-node4 -- tic -x -
 ```
 
@@ -1007,8 +1007,8 @@ I created a `/etc/modules-load.d/containerd.conf` file with the modules listed a
 Additionally, I needed to add the following to `/etc/sysctl.d/kubernetes.conf` and run `sudo sysctl --system`:
 
 ```text
-net.ipv4.ip_forward  
-net.bridge.bridge-nf-call-iptables  
+net.ipv4.ip_forward
+net.bridge.bridge-nf-call-iptables
 net.bridge.bridge-nf-call-ip6tables
 ```
 
